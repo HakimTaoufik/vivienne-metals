@@ -1,0 +1,13 @@
+dist/
+__pycache__/
+*.pyc
+node_modules/
+.sites-runtime/
+.env
+.env.*
+!.env.example
+private/
+*.sqlite*
+coverage/
+test-results/
+*.log
