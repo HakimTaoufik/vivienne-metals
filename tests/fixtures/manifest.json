@@ -1,0 +1,65 @@
+[
+  {
+    "id": "cv-coins",
+    "url": "https://changevivienne.com/",
+    "capturedAt": "2026-09-21T12:59:58.834867+00:00",
+    "rawSha256": "91c454b8280ab78b88f8844e90d9cf04cd46ec00a4f73fb6fc99d833885b1dff",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "cv-gold",
+    "url": "https://changevivienne.com/or/lingots-lingotins",
+    "capturedAt": "2026-09-21T13:03:32.874176+00:00",
+    "rawSha256": "ee95ed18a26ce0a17d42dce46db8e0c3a4c69ca6a973f3667a50354f12267263",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "cv-silver",
+    "url": "https://changevivienne.com/argent/lingots-lingotins",
+    "capturedAt": "2026-09-21T13:03:32.771885+00:00",
+    "rawSha256": "8a2be38d75da140a320c688a0c1e3f3ace78ed0eba65e81ce57a8e4834eef524",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "joubert",
+    "url": "https://maison-joubert.fr/achat-metaux/catalogue-achat/",
+    "capturedAt": "2026-09-21T13:03:45.751004+00:00",
+    "rawSha256": "0af6662e9d0aec79918ae8f35f8336cd9dca01b47b2aad832cc87843b6f98329",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "oc-coins-bid",
+    "url": "https://www.oretchange.com/17-vendre-or",
+    "capturedAt": "2026-09-21T12:59:56.878603+00:00",
+    "rawSha256": "0ce9cdf82d67bf62384c35935f15709ba7048266157e0de810d1447a9c854292",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "oc-coins-ask",
+    "url": "https://www.oretchange.com/15-pieces-or",
+    "capturedAt": "2026-09-21T13:04:39.968748+00:00",
+    "rawSha256": "4b8168898cb8632c34c7de6641e54885a38ed55de0165445b637d79228314407",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "oc-gold-ask",
+    "url": "https://www.oretchange.com/16-lingots-or",
+    "capturedAt": "2026-09-21T13:04:39.974913+00:00",
+    "rawSha256": "ad1d940f9e38e98b6fc67a7a47c0772fcb11b20b4e8acda9f6a86d82aadae878",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "oc-gold-bid",
+    "url": "https://www.oretchange.com/27-vendre-lingots-et-lingotins-or",
+    "capturedAt": "2026-09-21T13:04:40.092313+00:00",
+    "rawSha256": "6581aa938060ba9aed6105e8d1e8bbac75fde3b23842a43326da2e2acef51c72",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "oc-silver-ask",
+    "url": "https://www.oretchange.com/19-pieces-d-argent-francaises",
+    "capturedAt": "2026-09-21T13:04:39.798092+00:00",
+    "rawSha256": "a33b1c29300efe042af27ebc20353acfbb8d5bf07f9f65568c8154bc8e11d690",
+    "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  }
+]

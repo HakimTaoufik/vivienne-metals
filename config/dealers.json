@@ -1,0 +1,20 @@
+[
+  {
+    "id": "change-vivienne",
+    "label": "Change Vivienne",
+    "address": "48 rue Vivienne, Paris 2e",
+    "url": "https://changevivienne.com/"
+  },
+  {
+    "id": "joubert",
+    "label": "Maison Joubert",
+    "address": "38 rue Vivienne, Paris 2e",
+    "url": "https://maison-joubert.fr/"
+  },
+  {
+    "id": "or-change",
+    "label": "Or & Change",
+    "address": "53 rue Vivienne, Paris 2e",
+    "url": "https://www.oretchange.com/"
+  }
+]
