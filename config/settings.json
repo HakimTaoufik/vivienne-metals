@@ -1,0 +1,17 @@
+{
+  "lookbackDays": 90,
+  "minDays": 30,
+  "zThreshold": 2,
+  "maxPremiumPct": 8,
+  "maxSpreadPct": 10,
+  "minEdgePct": 1,
+  "buyFeePct": 0.5,
+  "sellFeePct": 0.5,
+  "taxPct": 0,
+  "fixedFeeCents": 0,
+  "tradeQuantity": 1,
+  "budgetCents": 500000,
+  "maxAgeHours": 6,
+  "cooldownHours": 24,
+  "alertEnabled": false
+}
