@@ -1,0 +1,87 @@
+[
+  {
+    "id": "cv-coins",
+    "dealer": "change-vivienne",
+    "adapter": "cv_home",
+    "url": "https://changevivienne.com/",
+    "fixture": "change"
+  },
+  {
+    "id": "cv-gold",
+    "dealer": "change-vivienne",
+    "adapter": "cv_table",
+    "url": "https://changevivienne.com/or/lingots-lingotins",
+    "fixture": "cv-gold"
+  },
+  {
+    "id": "cv-silver",
+    "dealer": "change-vivienne",
+    "adapter": "cv_table",
+    "url": "https://changevivienne.com/argent/lingots-lingotins",
+    "fixture": "cv-silver"
+  },
+  {
+    "id": "joubert",
+    "dealer": "joubert",
+    "adapter": "joubert",
+    "url": "https://maison-joubert.fr/achat-metaux/catalogue-achat/",
+    "fixture": "joubert-buy",
+    "side": "ask"
+  },
+  {
+    "id": "joubert-bid",
+    "dealer": "joubert",
+    "adapter": "joubert",
+    "side": "bid",
+    "url": "https://maison-joubert.fr/vente-metaux/catalogue-rachat/",
+    "fixture": "joubert-sell"
+  },
+  {
+    "id": "oc-coins-bid",
+    "dealer": "or-change",
+    "adapter": "oc",
+    "side": "bid",
+    "url": "https://www.oretchange.com/17-vendre-or",
+    "fixture": "oretchange"
+  },
+  {
+    "id": "oc-coins-ask",
+    "dealer": "or-change",
+    "adapter": "oc",
+    "side": "ask",
+    "url": "https://www.oretchange.com/15-pieces-or",
+    "fixture": "oc-gold-buy"
+  },
+  {
+    "id": "oc-gold-ask",
+    "dealer": "or-change",
+    "adapter": "oc",
+    "side": "ask",
+    "url": "https://www.oretchange.com/16-lingots-or",
+    "fixture": "oc-bars-buy"
+  },
+  {
+    "id": "oc-gold-bid",
+    "dealer": "or-change",
+    "adapter": "oc",
+    "side": "bid",
+    "url": "https://www.oretchange.com/27-vendre-lingots-et-lingotins-or",
+    "fixture": "oc-bars-sell"
+  },
+  {
+    "id": "oc-silver-ask",
+    "dealer": "or-change",
+    "adapter": "oc",
+    "side": "ask",
+    "url": "https://www.oretchange.com/19-pieces-d-argent-francaises",
+    "fixture": "oc-silver-buy"
+  },
+  {
+    "id": "oc-silver-bid",
+    "dealer": "or-change",
+    "adapter": "oc",
+    "side": "bid",
+    "url": "https://www.oretchange.com/29-vendre-pieces-argent",
+    "fixture": "oc-silver-sell"
+  }
+]

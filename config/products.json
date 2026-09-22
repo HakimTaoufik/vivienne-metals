@@ -1,0 +1,135 @@
+[
+  {
+    "id": "napoleon20",
+    "label": "20 F Napoléon / Génie",
+    "metal": "gold",
+    "fineGrams": 5.806449,
+    "kind": "coin"
+  },
+  {
+    "id": "coq20",
+    "label": "20 F Marianne Coq",
+    "metal": "gold",
+    "fineGrams": 5.806449,
+    "kind": "coin"
+  },
+  {
+    "id": "coq10",
+    "label": "10 F Marianne Coq",
+    "metal": "gold",
+    "fineGrams": 2.903225,
+    "kind": "coin"
+  },
+  {
+    "id": "hercule50",
+    "label": "50 F Hercule",
+    "metal": "silver",
+    "fineGrams": 27,
+    "kind": "coin"
+  },
+  {
+    "id": "hercule10",
+    "label": "10 F Hercule",
+    "metal": "silver",
+    "fineGrams": 22.5,
+    "kind": "coin"
+  },
+  {
+    "id": "semeuse5",
+    "label": "5 F Semeuse argent",
+    "metal": "silver",
+    "fineGrams": 10.02,
+    "kind": "coin"
+  },
+  {
+    "id": "gold1",
+    "label": "Or · 1 g",
+    "metal": "gold",
+    "fineGrams": 0.9999,
+    "kind": "bar"
+  },
+  {
+    "id": "gold5",
+    "label": "Or · 5 g",
+    "metal": "gold",
+    "fineGrams": 4.9995,
+    "kind": "bar"
+  },
+  {
+    "id": "gold10",
+    "label": "Or · 10 g",
+    "metal": "gold",
+    "fineGrams": 9.999,
+    "kind": "bar"
+  },
+  {
+    "id": "gold20",
+    "label": "Or · 20 g",
+    "metal": "gold",
+    "fineGrams": 19.998,
+    "kind": "bar"
+  },
+  {
+    "id": "gold50",
+    "label": "Or · 50 g",
+    "metal": "gold",
+    "fineGrams": 49.995,
+    "kind": "bar"
+  },
+  {
+    "id": "gold100",
+    "label": "Or · 100 g",
+    "metal": "gold",
+    "fineGrams": 99.99,
+    "kind": "bar"
+  },
+  {
+    "id": "gold250",
+    "label": "Or · 250 g",
+    "metal": "gold",
+    "fineGrams": 249.975,
+    "kind": "bar"
+  },
+  {
+    "id": "gold500",
+    "label": "Or · 500 g",
+    "metal": "gold",
+    "fineGrams": 499.95,
+    "kind": "bar"
+  },
+  {
+    "id": "gold1000",
+    "label": "Or · 1000 g",
+    "metal": "gold",
+    "fineGrams": 999.9,
+    "kind": "bar"
+  },
+  {
+    "id": "goldoz",
+    "label": "Or · 1 once",
+    "metal": "gold",
+    "fineGrams": 31.10036645232,
+    "kind": "bar"
+  },
+  {
+    "id": "silverfiji250",
+    "label": "Argent Fiji · 250 g",
+    "metal": "silver",
+    "fineGrams": 249.975,
+    "kind": "bar"
+  },
+  {
+    "id": "silverfiji500",
+    "label": "Argent Fiji · 500 g",
+    "metal": "silver",
+    "fineGrams": 499.95,
+    "kind": "bar"
+  },
+  {
+    "id": "silverfiji1000",
+    "label": "Argent Fiji · 1000 g",
+    "metal": "silver",
+    "fineGrams": 999.9,
+    "kind": "bar"
+  }
+]
