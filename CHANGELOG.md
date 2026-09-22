@@ -1,5 +1,11 @@
 # Version history
 
+## v0.6.1 — 2026-09-22
+
+* Give the purchase/sale selector an explicit accessible name.
+* Fix the label mismatch found by the first real desktop/mobile browser run.
+* Preserve all existing model, storage and notification regression checks.
+
 ## v0.6.0 — 2026-09-22
 
 * Hourly GitHub Actions collection and GitHub Pages deployment configuration.

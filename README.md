@@ -33,7 +33,11 @@ commit/tag milestones. The website is in French; developer documentation is in
 English. There are no frontend/runtime npm dependencies. Development-only tools
 are pinned in `package-lock.json`.
 
-Deployment and SMTP activation are pending. The authoring environment's browser
-preview was unavailable; DOM integration tests ran, and desktop/mobile browser
-tests are supplied for GitHub Actions. See `docs/VALIDATION.md` for the exact
-checks performed and the checks still requiring activation.
+The GitHub repository and hourly collection are active. GitHub Pages deployment
+requires all 82 core/DOM tests and all 10 desktop/mobile browser scenarios to pass
+on code changes. See the [current build and deployment status](https://github.com/HakimTaoufik/vivienne-metals/actions/workflows/market.yml).
+
+Email is disabled until you configure SMTP secrets, choose your recipient and
+enable alerts in `config/settings.json`; see `docs/OPERATIONS.md`. The mathematical
+model waits for sufficient real daily history. It does not invent prior prices
+or promise profitable trades. `docs/VALIDATION.md` records the validation evidence.
