@@ -142,6 +142,10 @@ def parse(html, source, observed):
             # Buy-page bid has no documented minimum; don't infer a sell minimum.
             if source.get("side") == "bid":
                 q["minSell"] = q["minBuy"]
+                q["ask"] = None
+                q["minBuy"] = None
+            elif source.get("side") == "ask":
+                q["bid"] = None
             quotes.append(q)
     elif adapter == "oc":
         side = source.get("side")

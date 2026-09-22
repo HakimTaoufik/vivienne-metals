@@ -61,5 +61,19 @@
     "capturedAt": "2026-09-21T13:04:39.798092+00:00",
     "rawSha256": "a33b1c29300efe042af27ebc20353acfbb8d5bf07f9f65568c8154bc8e11d690",
     "note": "Only price rows retained; forms, tokens, images and scripts omitted."
+  },
+  {
+    "id": "joubert-bid",
+    "url": "https://maison-joubert.fr/vente-metaux/catalogue-rachat/",
+    "capturedAt": "2026-09-21T13:03:45.525780+00:00",
+    "rawSha256": "d4838057c016e2830c1cb37169f5afbd464d7db0860d5ebd6b75e25b90d558c0",
+    "note": "Price rows only; forms, tokens, scripts and images omitted."
+  },
+  {
+    "id": "oc-silver-bid",
+    "url": "https://www.oretchange.com/29-vendre-pieces-argent",
+    "capturedAt": "2026-09-21T13:39:50.834615+00:00",
+    "rawSha256": "7cb22a32f73ddcc4b6d6fb61d86b14fbb62ce4b68b1523a48afb627afc521848",
+    "note": "Price rows only; forms, tokens, scripts and images omitted."
   }
 ]

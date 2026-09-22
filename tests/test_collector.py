@@ -39,7 +39,7 @@ class AdapterTests(unittest.TestCase):
         for s in SOURCES:
             with self.subTest(source=s['id']):
                 p=ROOT/'tests/fixtures'/f"{s['id']}.html"
-                if not p.exists():continue
+                self.assertTrue(p.exists(), 'Every configured source needs an actual captured fixture')
                 quotes,_=parse(p.read_text(),s,STAMP)
                 self.assertGreater(len(quotes),0)
                 self.assertTrue(all(q['currency']=='EUR' for q in quotes))
@@ -62,8 +62,12 @@ class AdapterTests(unittest.TestCase):
     def test_joubert_ignores_reference_and_bulk_prices(self):
         q,_=parse(fixture('joubert'),source('joubert'),STAMP)
         coin=next(x for x in q if x['product']=='napoleon20')
-        self.assertEqual((coin['bid'],coin['ask']),(69400,73000))
+        self.assertEqual((coin['bid'],coin['ask']),(None,73000))
         self.assertIsNone(coin['minSell'])
+    def test_joubert_resale_minimum_from_correct_page(self):
+        q,_=parse(fixture('joubert-bid'),source('joubert-bid'),STAMP)
+        coin=next(x for x in q if x['product']=='napoleon20')
+        self.assertEqual(coin['bid'],69300);self.assertEqual(coin['minSell'],1);self.assertIsNone(coin['ask'])
     def test_or_change_both_pages(self):
         q,_=parse(fixture('oc-coins-bid'),source('oc-coins-bid'),STAMP)
         self.assertEqual(q[0]['bid'],69963);self.assertIsNone(q[0]['ask'])

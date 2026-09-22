@@ -25,7 +25,16 @@
     "dealer": "joubert",
     "adapter": "joubert",
     "url": "https://maison-joubert.fr/achat-metaux/catalogue-achat/",
-    "fixture": "joubert-buy"
+    "fixture": "joubert-buy",
+    "side": "ask"
+  },
+  {
+    "id": "joubert-bid",
+    "dealer": "joubert",
+    "adapter": "joubert",
+    "side": "bid",
+    "url": "https://maison-joubert.fr/vente-metaux/catalogue-rachat/",
+    "fixture": "joubert-sell"
   },
   {
     "id": "oc-coins-bid",

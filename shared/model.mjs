@@ -10,7 +10,8 @@ export function settings(input={}) {
   if(typeof s.alertEnabled!=='boolean') throw Error('Activation invalide.');
   return Object.fromEntries(Object.keys(DEFAULTS).map(k=>[k,s[k]]));
 }
-export function parisDay(value) { return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value)); }
+const dayFormatter=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'});
+export function parisDay(value) { return dayFormatter.format(new Date(value)); }
 export function median(a) { if(!a.length)return null; const s=[...a].sort((x,y)=>x-y),m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2; }
 export function robust(values, value) { const center=median(values); if(center===null)return {center:null,scale:null,z:null}; const scale=Math.max(.25,1.4826*median(values.map(x=>Math.abs(x-center))));return {center,scale,z:(value-center)/scale}; }
 export const premium = (price,melt) => Number.isFinite(price)&&price>0&&Number.isFinite(melt)&&melt>0 ? (price/melt-1)*100 : null;
@@ -70,6 +71,7 @@ export function analyze(market,product,input={},now=new Date().toISOString()) {
       if(entry>s.budgetCents)reasons.push('Budget dépassé');
       if(p!=null&&p>s.maxPremiumPct)reasons.push('Prime trop élevée');
       if(spread==null||spread>s.maxSpreadPct)reasons.push('Écart achat/revente trop élevé ou incomplet');
+      if(!row.bid||!minimumOK(row.bid,'bid',s.tradeQuantity))reasons.push('Quantité de revente non vérifiée');
       if(stat.z==null||stat.z>-s.zThreshold)reasons.push('Prime pas assez basse dans son historique');
       if(train.bid.length>=s.minDays&&melt) {
         const typicalBid=melt*(1+median(train.bid)/100);
