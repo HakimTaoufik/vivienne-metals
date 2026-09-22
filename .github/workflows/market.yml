@@ -1,0 +1,88 @@
+name: Collect, alert and publish
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vivienne-market-pipeline
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - run: npm ci --ignore-scripts
+      - run: npm test
+      - name: Restore durable observations and cooldowns
+        id: restore
+        run: python scripts/runtime-state.py restore runtime
+      - name: Collect public dealer prices
+        id: collect
+        continue-on-error: true
+        run: python -m collector.cli collect --db runtime/market.sqlite --output runtime/market.json
+      - name: Build market signals
+        run: node scripts/signals.mjs runtime/market.json private/signals.json
+      - name: Send eligible email digest
+        id: notify
+        continue-on-error: true
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT || '587' }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          ALERT_TO: ${{ secrets.ALERT_TO }}
+        run: python -m collector.notify --signals private/signals.json --state runtime/notifications-state.json --status runtime/notifications.json --checkpoint-runtime runtime
+      - name: Preserve history and email state even after failure
+        if: always() && steps.restore.outcome == 'success'
+        run: python scripts/runtime-state.py persist runtime
+      - name: Build public dashboard
+        env:
+          MARKET_DATA_PATH: runtime/market.json
+          NOTIFICATION_STATUS_PATH: runtime/notifications.json
+        run: npm run build
+      - name: Browser checks for code changes
+        if: github.event_name != 'schedule'
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:browser
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Report collection or notification failures
+        if: steps.collect.outcome == 'failure' || steps.notify.outcome == 'failure'
+        run: echo '::warning::Collection or mail had a failure. The dashboard exposes source and delivery status; durable state was preserved.'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
