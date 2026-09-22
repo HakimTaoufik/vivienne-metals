@@ -55,6 +55,17 @@ class NotificationTests(unittest.TestCase):
     def test_missing_configuration(self):
         with tempfile.TemporaryDirectory() as d:
             self.assertEqual(deliver(PAYLOAD,d+'/state.json',NOW,{'SMTP_HOST':'x'})['status'],'configuration_required')
+    def test_durable_intent_is_saved_before_transport(self):
+        with tempfile.TemporaryDirectory() as d:
+            events=[]
+            def checkpoint():
+                state=json.loads(Path(d+'/state.json').read_text());events.append(state[key(SIGNAL)]['status'])
+            deliver(PAYLOAD,d+'/state.json',NOW,ENV,send=lambda *_:events.append('transport'),checkpoint=checkpoint)
+            self.assertEqual(events,['pending','transport','sent'])
+    def test_failed_remote_checkpoint_prevents_send(self):
+        with tempfile.TemporaryDirectory() as d:
+            def fail():raise OSError('remote unavailable')
+            self.assertRaises(OSError,deliver,PAYLOAD,d+'/state.json',NOW,ENV,False,lambda *_:self.fail('must not send'),fail)
     def test_header_injection(self):
         self.assertRaises(ValueError,address,'me@example.org\nBcc: somebody@example.org')
         self.assertRaises(ValueError,address,'a@example.org,b@example.org')

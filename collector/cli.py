@@ -31,6 +31,13 @@ def validate(quotes, spots, old):
 def collect(db_path, destination, sources=None, fetcher=None):
     sources = sources or json.loads((ROOT / "config/sources.json").read_text())
     db = connect(db_path)
+    seed = ROOT / 'data/market.json'
+    if db.execute('SELECT count(*) FROM observations').fetchone()[0] == 0 and seed.exists() and fetcher is None:
+        initial = json.loads(seed.read_text())
+        for health in initial.get('health', []):
+            qs = [q for q in initial.get('history', []) if q['source'] == health['id']]
+            ss = [s for s in initial.get('spotHistory', []) if s['source'] == health['id']]
+            save(db, qs, ss, health)
     # Parallel across dealers, sequential within each host; requests remain modest.
     groups = {}
     for source in sources:

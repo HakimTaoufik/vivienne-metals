@@ -87,23 +87,25 @@ def smtp_send(msg,env=None,smtp_factory=None):
         if refused:raise smtplib.SMTPRecipientsRefused(refused)
 
 
-def deliver(payload,state_path,now,env=None,dry_run=False,send=smtp_send):
+def deliver(payload,state_path,now,env=None,dry_run=False,send=smtp_send,checkpoint=None):
     env=env or os.environ;p=Path(state_path)
     state=json.loads(p.read_text()) if p.exists() else {}
     candidates=eligible(payload,state,now)
     if not payload['settings']['alertEnabled']:return {'status':'disabled','count':0,'checkedAt':now}
-    if not candidates:return {'status':'no_signal','count':0,'checkedAt':now}
+    configured=all(env.get(k) for k in ['SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM','ALERT_TO'])
+    if not candidates:return {'status':'no_signal' if configured or dry_run else 'configuration_required','count':0,'checkedAt':now}
     sender,recipient=env.get('SMTP_FROM',''),env.get('ALERT_TO','')
     if dry_run:
         msg=message(candidates,sender or 'preview@example.invalid',recipient or 'preview@example.invalid',now)
         p.parent.mkdir(parents=True,exist_ok=True)
         p.with_suffix('.preview.eml').write_bytes(bytes(msg))
         return {'status':'dry_run','count':len(candidates),'checkedAt':now}
-    if not all(env.get(k) for k in ['SMTP_HOST','SMTP_USER','SMTP_PASSWORD','SMTP_FROM','ALERT_TO']):
+    if not configured:
         return {'status':'configuration_required','count':0,'checkedAt':now}
     msg=message(candidates,sender,recipient,now)
     for s in candidates:state[key(s)]={'lastAttemptAt':now,'status':'pending'}
     atomic_json(p,state) # Write intent before handing a message to SMTP.
+    if checkpoint:checkpoint() # Remote durable intent must succeed BEFORE SMTP.
     try:
         send(msg,env)
     except Exception:
@@ -112,6 +114,7 @@ def deliver(payload,state_path,now,env=None,dry_run=False,send=smtp_send):
         raise
     for s in candidates:state[key(s)].update(status='sent',lastSentAt=now)
     atomic_json(p,state)
+    if checkpoint:checkpoint()
     return {'status':'sent','count':len(candidates),'checkedAt':now}
 
 
@@ -119,9 +122,12 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--signals',default='private/signals.json');parser.add_argument('--state',default='private/notifications-state.json')
     parser.add_argument('--status',default='data/notifications.json');parser.add_argument('--dry-run',action='store_true')
+    parser.add_argument('--checkpoint-runtime',help='Persist this dedicated market-data worktree before SMTP delivery')
     args=parser.parse_args();now=datetime.now(timezone.utc).isoformat(timespec='seconds')
     try:
-        result=deliver(json.loads(Path(args.signals).read_text()),args.state,now,dry_run=args.dry_run)
+        import subprocess,sys
+        checkpoint=(lambda:subprocess.run([sys.executable,'scripts/runtime-state.py','persist',args.checkpoint_runtime],check=True)) if args.checkpoint_runtime else None
+        result=deliver(json.loads(Path(args.signals).read_text()),args.state,now,dry_run=args.dry_run,checkpoint=checkpoint)
     except Exception as error:
         atomic_json(args.status,{'status':'error','count':0,'checkedAt':now})
         # Do not print SMTP exceptions: a provider may echo a private recipient.
