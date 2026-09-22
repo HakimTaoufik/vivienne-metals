@@ -1,0 +1,39 @@
+name: Import original version history
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: vivienne-history-import
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Verify and import the tested release with its tags
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'e89cfa6b3a1fd671f50802c8da07fbc59a5aaebb03a17a2f5fc3c9500c043bae  vivienne-metals.bundle' | sha256sum -c -
+          git bundle verify vivienne-metals.bundle
+          git fetch ./vivienne-metals.bundle refs/heads/main:refs/remotes/archive/main 'refs/tags/*:refs/tags/*'
+          archive=$(git rev-parse refs/remotes/archive/main)
+          test "$archive" = '987b582c68b4d593cfd03fcd78650bcd4298b308'
+          if git merge-base --is-ancestor "$archive" HEAD; then
+            echo 'Original history is already imported.'
+            git push origin --tags
+            exit 0
+          fi
+          git archive "$archive" | tar -x
+          git restore --source=HEAD -- .github/workflows
+          git add .
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          tree=$(git write-tree)
+          merged=$(git commit-tree "$tree" -p HEAD -p "$archive" -m 'chore: import tested release and original version history')
+          git update-ref refs/heads/main "$merged" HEAD
+          git push --atomic origin main --tags
