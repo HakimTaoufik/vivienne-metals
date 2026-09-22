@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cours de l’or et de l’argent rue Vivienne : comparer les boutiques, suivre ses avoirs et repérer les écarts de prix.">
+  <meta name="theme-color" content="#172a3c">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>Vivienne · Or & argent</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a href="#main" class="skip">Aller au contenu</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="Vivienne, accueil"><span class="brand-symbol">V</span><span>VIVIENNE<small>OR & ARGENT · PARIS</small></span></a>
+    <nav aria-label="Navigation principale">
+      <button data-tab="market" class="nav-button active" aria-current="page">Marché</button>
+      <button data-tab="portfolio" class="nav-button">Mes avoirs</button>
+      <button data-tab="signals" class="nav-button">Opportunités</button>
+      <button data-tab="settings" class="nav-button">Paramètres</button>
+    </nav>
+    <div class="header-meta"><span class="paris-label">RUE VIVIENNE</span><span id="clock">Paris · EUR</span></div>
+  </header>
+  <main id="main" tabindex="-1">
+    <div id="global-error" class="notice error" hidden></div>
+    <section id="view-market" class="view">
+      <div class="page-heading"><div><p class="eyebrow">LE COMPTOIR</p><h1>Le marché, en un regard.</h1></div><button id="refresh" class="button secondary">↻ Actualiser</button></div>
+      <div class="spot-strip" id="spot-strip"><p>Chargement des cours…</p></div>
+      <div class="market-toolbar"><div class="segments" aria-label="Métal"><button data-metal="gold" class="selected" aria-pressed="true">Or</button><button data-metal="silver" aria-pressed="false">Argent</button></div><label class="product-selector">Produit <select id="product-select" aria-label="Produit suivi"></select></label><span class="muted" id="product-spec"></span></div>
+      <div class="market-layout">
+        <section class="panel history-panel" aria-labelledby="chart-title">
+          <div class="panel-heading"><div><p class="eyebrow">HISTORIQUE EN EUROS</p><h2 id="chart-title">Évolution des prix</h2></div><div class="segments compact" aria-label="Période"><button data-period="7">7 j</button><button data-period="30">30 j</button><button data-period="90" class="selected" aria-pressed="true">90 j</button><button data-period="365">1 an</button></div></div>
+          <div class="chart-legend"><label><input id="line-ask" type="checkbox" checked><i class="legend-line gold"></i>Vous payez</label><label><input id="line-bid" type="checkbox" checked><i class="legend-line blue"></i>Vous recevez</label><label><input id="line-melt" type="checkbox" checked><i class="legend-line grey"></i>Valeur métal</label></div>
+          <div id="price-chart" class="price-chart"></div><p id="chart-note" class="chart-note"></p>
+          <details class="chart-table"><summary>Voir les observations</summary><div id="history-table" class="table-scroll"></div></details>
+        </section>
+        <aside class="summary-stack" id="product-summary"></aside>
+      </div>
+      <section class="panel comparison-panel"><div class="panel-heading"><div><p class="eyebrow">LES BOUTIQUES</p><h2>Comparer avant de passer.</h2></div><span class="pill">Prix par unité · EUR</span></div><div id="dealer-table" class="table-scroll"></div><p class="footnote">Vous payez = achat en boutique. Vous recevez = rachat par la boutique. Prix indicatifs, état et disponibilité à confirmer.</p></section>
+      <details class="sources-panel"><summary id="source-summary">État des sources</summary><div id="sources-list"></div></details>
+    </section>
+    <section id="view-portfolio" class="view" hidden>
+      <div class="page-heading"><div><p class="eyebrow">VOTRE JOURNAL</p><h1>Mes avoirs.</h1></div><button id="add-transaction" class="button">+ Ajouter une opération</button></div>
+      <div class="notice subtle">Vos opérations restent dans ce navigateur. Exportez une sauvegarde pour les conserver ou changer d’appareil.</div>
+      <div id="portfolio-stats" class="stat-grid"></div>
+      <section class="panel"><div class="panel-heading"><h2>Ce que vous détenez</h2><span class="muted">Coût de revient FIFO</span></div><div id="holdings"></div></section>
+      <section class="panel ledger-panel"><div class="panel-heading"><h2>Achats & ventes</h2><div class="button-row"><button id="export-backup" class="button secondary">Exporter la sauvegarde</button><button id="import-backup" class="button secondary">Importer</button><input id="backup-file" type="file" accept=".json,application/json" hidden></div></div><div id="transactions" class="table-scroll"></div></section>
+    </section>
+    <section id="view-signals" class="view" hidden>
+      <div class="page-heading"><div><p class="eyebrow">LIRE LES ÉCARTS</p><h1>Opportunités.</h1></div><button class="button secondary" data-tab="settings">Ajuster les seuils</button></div>
+      <div id="signal-status" class="notice"></div>
+      <div id="signal-cards" class="signal-grid"></div>
+      <section class="panel"><div class="panel-heading"><div><p class="eyebrow">SIMULATION CHRONOLOGIQUE</p><h2>Tester sur l’historique</h2></div><button id="run-backtest" class="button secondary">Lancer le backtest</button></div><p class="muted" id="backtest-product"></p><div id="backtest-result"><p class="empty compact-empty">Le test attend au moins 32 jours de prix réels. Aucun historique n’est inventé.</p></div></section>
+      <section class="method-note"><h2>Ce qui déclenche un signal</h2><p>Le modèle compare la prime actuelle à la médiane de la même boutique sur les jours précédents. L’écart est normalisé par la déviation absolue médiane (MAD), avec un plancher de 0,25 point. Un achat doit aussi passer les limites de spread, de budget, de quantité et de marge après frais. Une vente doit offrir une prime de rachat anormalement haute.</p><p>Le score n’est pas une probabilité de gain. Les données commencent à la première collecte. Les emails suivent les seuils enregistrés dans le dépôt ; les suggestions liées à vos avoirs restent locales.</p></section>
+    </section>
+    <section id="view-settings" class="view" hidden>
+      <div class="page-heading"><div><p class="eyebrow">VOTRE STRATÉGIE</p><h1>Des règles explicites.</h1></div><button id="reset-settings" class="button secondary">Valeurs initiales</button></div>
+      <form id="settings-form"><div class="settings-grid">
+        <section class="panel"><p class="eyebrow">MODÈLE</p><h2>Définir « excellent »</h2><div id="model-fields" class="form-grid"></div></section>
+        <section class="panel"><p class="eyebrow">EXÉCUTION</p><h2>Intégrer vos coûts</h2><div id="cost-fields" class="form-grid"></div><p class="footnote">La taxe est une provision paramétrable sur le produit de vente. Aucun régime fiscal personnel n’est déduit automatiquement.</p></section>
+      </div><div class="settings-actions"><button type="submit" class="button">Enregistrer dans ce navigateur</button><button type="button" id="export-settings" class="button secondary">Exporter pour les emails</button></div></form>
+      <section class="panel email-panel"><div class="panel-heading"><div><p class="eyebrow">ALERTES EMAIL</p><h2>Le marché continue, même site fermé.</h2></div><span id="email-status" class="pill">À configurer</span></div><p>Activez les emails dans le fichier exporté, puis remplacez <code>config/settings.json</code> dans GitHub. Ajoutez les secrets <code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_USER</code>, <code>SMTP_PASSWORD</code>, <code>SMTP_FROM</code> et <code>ALERT_TO</code> dans les paramètres du dépôt.</p><label class="check-line"><input id="alert-enabled" type="checkbox">Activer les alertes dans la configuration exportée</label><p class="footnote">Une collecte est prévue toutes les heures. GitHub peut retarder une exécution. Les clés email et l’adresse destinataire ne sont jamais stockées sur cette page.</p></section>
+    </section>
+    <footer><span>VIVIENNE <span class="footer-dot">/</span> Observatoire indépendant</span><span id="version-label">v0.5.0 · EUR · Europe/Paris</span><span>Vérifiez le prix exécutable en boutique.</span></footer>
+  </main>
+  <dialog id="transaction-dialog"><form id="transaction-form"><div class="dialog-heading"><h2 id="transaction-title">Ajouter une opération</h2><button type="button" id="close-dialog" class="icon-button" aria-label="Fermer">×</button></div><input type="hidden" name="id"><div class="form-grid"><label>Opération<select name="type"><option value="buy">Achat / avoir initial</option><option value="sell">Vente</option></select></label><label>Produit<select name="product"></select></label><label>Date<input name="date" type="date" required></label><label>Quantité<input name="quantity" type="number" min="1" step="1" value="1" required></label><label>Prix payé / reçu par unité (€)<input name="price" type="number" min="0.01" step="0.01" required></label><label>Frais totaux (€)<input name="fees" type="number" min="0" step="0.01" value="0" required></label></div><label class="full-label">Note (facultatif)<input name="note" maxlength="500" placeholder="Boutique, état, référence…"></label><p id="transaction-error" class="form-error" role="alert"></p><div class="dialog-actions"><button type="button" id="cancel-dialog" class="button secondary">Annuler</button><button type="submit" class="button">Enregistrer l’opération</button></div></form></dialog>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
