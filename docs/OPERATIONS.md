@@ -20,24 +20,25 @@ For a normal local checkout the dev server listens on port 4173. It serves the
 `dist` folder; run the build again after source edits. The website is pure static
 HTML, CSS and ES modules and works under a GitHub project subpath.
 
-## Create the GitHub repository
+## Repository and GitHub Pages
 
-The supplied Git bundle retains the small commits and annotated version tags:
+The [repository](https://github.com/HakimTaoufik/vivienne-metals) and
+[GitHub Pages dashboard](https://hakimtaoufik.github.io/vivienne-metals/) are active.
+Clone the current code and its version history with:
 
 ```sh
-git clone vivienne-metals.bundle vivienne-metals
+git clone https://github.com/HakimTaoufik/vivienne-metals.git
 cd vivienne-metals
-git remote remove origin # Remove the bundle's local-path remote.
-gh repo create vivienne-metals --public --source=. --remote=origin --push
-git push origin --tags
+git fetch origin --tags
 ```
 
-If using the source folder rather than the bundle, preserve its `.git` directory.
+The bundled initial archive is retained for provenance; the repository has newer
+fixes. If copying the source folder, preserve its `.git` directory.
 Do not publish your portfolio export or an `.env` file. A public repository keeps
 this setup compatible with free GitHub Pages; a private repository requires an
 eligible GitHub plan. Pages itself is a public dashboard in this architecture.
 
-Enable **Settings → Pages → Source → GitHub Actions**. Enable Actions for the
+For a new fork, enable **Settings → Pages → Source → GitHub Actions** and Actions for the
 repository if necessary. The workflow has the minimum job-level content/Pages
 permissions it needs. Run **Collect, alert and publish** once under Actions. The
 deployment URL appears in the successful deployment job.
@@ -125,11 +126,11 @@ The browser suite runs on code pushes, pull requests and version tags; it avoids
 reinstalling a browser on every hourly data run. Runtime schedules still run fast
 regression tests. Browser tests require a working browser runtime.
 
-The delivered build was checked with automated DOM integration tests. Interactive
-browser QA could not run in the authoring session because its preview service was
-unavailable. The ten browser scenarios are configured for CI and are not claimed
-as passing until CI executes them. Provider delivery and live GitHub Pages
-deployment likewise require repository/email activation.
+The v0.6.1 release passed 86 core/DOM tests and all ten real browser scenarios in
+GitHub Actions, then deployed successfully to GitHub Pages. Live browser inspection
+and scheduled collections were also completed. See `docs/VALIDATION.md` for the
+run links, production regressions and remaining limits. Actual SMTP provider and
+mailbox delivery still require the owner's email configuration.
 
 Make focused commits; use annotated `v0.x.y` tags for tested milestones. Treat an
 adapter fix as a patch release and a product/schema change as a minor release.
