@@ -1,6 +1,8 @@
 # Vivienne · or & argent
 
 A small, dependency-free price and portfolio dashboard for rue Vivienne, Paris.
+[Open the live dashboard](https://hakimtaoufik.github.io/vivienne-metals/).
+
 GitHub Pages serves static files. GitHub Actions collects dealer quotes and sends
 configured email alerts. Python 3.11+ and Node.js 22+ are required for development.
 
@@ -34,7 +36,7 @@ English. There are no frontend/runtime npm dependencies. Development-only tools
 are pinned in `package-lock.json`.
 
 The GitHub repository and hourly collection are active. GitHub Pages deployment
-requires all 82 core/DOM tests and all 10 desktop/mobile browser scenarios to pass
+requires all 86 core/DOM tests and all 10 desktop/mobile browser scenarios to pass
 on code changes. See the [current build and deployment status](https://github.com/HakimTaoufik/vivienne-metals/actions/workflows/market.yml).
 
 Email is disabled until you configure SMTP secrets, choose your recipient and
