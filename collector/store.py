@@ -45,6 +45,12 @@ def atomic_json(path, value):
 def export(db, destination, generated):
     # Daily last observation for modeling; the latest seven days retain intraday detail.
     from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+    paris = ZoneInfo("Europe/Paris")
+
+    def trading_day(stamp):
+        return datetime.fromisoformat(stamp.replace("Z", "+00:00")).astimezone(paris).date().isoformat()
+
     cutoff = (datetime.fromisoformat(generated.replace("Z", "+00:00")) - timedelta(days=7)).isoformat()
     all_quotes = [json.loads(r[0]) for r in db.execute("SELECT payload FROM observations ORDER BY observed")]
     all_spots = [json.loads(r[0]) for r in db.execute("SELECT payload FROM spots ORDER BY observed")]
@@ -66,13 +72,13 @@ def export(db, destination, generated):
     latest, daily, recent = {}, {}, []
     for q in all_quotes:
         latest[(q["source"], q["product"])] = q
-        daily[(q["source"], q["product"], q["observedAt"][:10])] = q
+        daily[(q["source"], q["product"], trading_day(q["observedAt"]))] = q
         if q["observedAt"] >= cutoff:
             recent.append(q)
     spot_latest, spot_daily = {}, {}
     for s in all_spots:
         spot_latest[s["metal"]] = s
-        spot_daily[(s["metal"], s["observedAt"][:10])] = s
+        spot_daily[(s["metal"], trading_day(s["observedAt"]))] = s
     payload = {"schemaVersion": 1, "generatedAt": generated, "currency": "EUR",
                "quotes": list(latest.values()), "spots": list(spot_latest.values()),
                "history": list(daily.values()), "spotHistory": list(spot_daily.values()),

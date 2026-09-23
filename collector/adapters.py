@@ -136,9 +136,16 @@ def parse(html, source, observed):
             q["bid"] = direct_price(first(row, "joubert-achat-net"))
             q["ask"] = direct_price(first(row, "joubert-vend-net"))
             inputs = row.find("input", cls="qty-input")
-            if len(inputs) != 1:
+            unavailable = any(n.text() == "Rupture de stock" for n in row.find("span"))
+            if source.get("side") == "ask" and unavailable and not inputs:
+                # The catalog replaces the quantity control with an explicit
+                # stock label. Keep the row, but never offer its displayed ask.
+                q["availability"] = "unavailable"
+                q["ask"] = None
+            elif len(inputs) != 1 or unavailable:
                 raise ParseError("Joubert minimum quantity missing")
-            q["minBuy"] = positive_int(inputs[0].attrs.get("min", ""))
+            else:
+                q["minBuy"] = positive_int(inputs[0].attrs.get("min", ""))
             # Buy-page bid has no documented minimum; don't infer a sell minimum.
             if source.get("side") == "bid":
                 q["minSell"] = q["minBuy"]
