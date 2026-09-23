@@ -2,6 +2,7 @@ import copy
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 import tempfile
 import unittest
 from urllib.error import HTTPError
@@ -68,6 +69,22 @@ class AdapterTests(unittest.TestCase):
         q,_=parse(fixture('joubert-bid'),source('joubert-bid'),STAMP)
         coin=next(x for x in q if x['product']=='napoleon20')
         self.assertEqual(coin['bid'],69300);self.assertEqual(coin['minSell'],1);self.assertIsNone(coin['ask'])
+    def test_joubert_out_of_stock_rows_keep_coverage_without_an_ask(self):
+        # Synthetic stock transition using the catalog's captured stock label.
+        # These rows are test inputs only, never historical observations.
+        html=re.sub(r'<input\b[^>]*class="[^"]*qty-input"[^>]*>',
+                    '<span class="text-sm italic text-grey-800">Rupture de stock</span>',fixture('joubert'))
+        quotes,_=parse(html,source('joubert'),STAMP)
+        self.assertEqual(len(quotes),10)
+        self.assertTrue(all(q['ask'] is None and q['bid'] is None and q['minBuy'] is None
+                            and q['availability']=='unavailable' for q in quotes))
+    def test_joubert_missing_quantity_without_stock_label_fails_closed(self):
+        html=re.sub(r'<input\b[^>]*class="[^"]*qty-input"[^>]*>','',fixture('joubert'))
+        self.assertRaises(ParseError,parse,html,source('joubert'),STAMP)
+    def test_joubert_stock_label_does_not_relax_resale_minimum(self):
+        html=re.sub(r'<input\b[^>]*class="[^"]*qty-input"[^>]*>',
+                    '<span class="text-sm italic text-grey-800">Rupture de stock</span>',fixture('joubert-bid'))
+        self.assertRaises(ParseError,parse,html,source('joubert-bid'),STAMP)
     def test_or_change_both_pages(self):
         q,_=parse(fixture('oc-coins-bid'),source('oc-coins-bid'),STAMP)
         self.assertEqual(q[0]['bid'],69963);self.assertIsNone(q[0]['ask'])
@@ -89,6 +106,21 @@ class AdapterTests(unittest.TestCase):
 
 
 class StorageTests(unittest.TestCase):
+    def test_daily_quotes_and_spots_use_paris_midnight_including_dst(self):
+        for before,after,later in [
+            ('2026-09-21T21:59:00+00:00','2026-09-21T22:00:00+00:00','2026-09-22T00:30:00+00:00'),
+            ('2026-10-25T22:59:00+00:00','2026-10-25T23:00:00+00:00','2026-10-26T00:30:00+00:00'),
+        ]:
+            with self.subTest(before=before),tempfile.TemporaryDirectory() as tmp:
+                db=connect(tmp+'/db')
+                for stamp in (before,after,later):
+                    quotes,spots=parse(fixture('cv-gold'),source('cv-gold'),stamp)
+                    save(db,quotes,spots,{'id':'cv-gold','status':'ok'})
+                out=export(db,tmp+'/out',later)
+                for key in ('history','spotHistory'):
+                    self.assertEqual({q['observedAt'] for q in out[key]},{before,later})
+                self.assertEqual(len(out['history']),2*len(quotes))
+                db.close()
     def test_atomic_idempotent_and_daily_export(self):
         with tempfile.TemporaryDirectory() as tmp:
             db=connect(tmp+'/market.sqlite');q,s=parse(fixture('cv-gold'),source('cv-gold'),STAMP)
