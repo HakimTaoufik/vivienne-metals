@@ -1,3 +1,14 @@
+# v0.7.0 validation (2026-09-24)
+
+- Local gate: 55 Node model/portfolio/DOM checks and 64 Python collector/storage/mail checks (119 total), passing.
+- Real collection: 32/32 sources, 418 quotes, 12 dealers, 62 products. Raw responses retained locally for the audit; sanitized regression fixtures are versioned with SHA-256 provenance.
+- New regression cases cover every adapter, content negotiation, source timestamps, exact quantity boundaries, duplicate structured prices, promo prices, unavailable inventory, stale feeds, and no fabricated training days.
+- Browser suite expanded from 10 to 14 desktop/mobile scenarios. CI result and final live review are recorded after deployment.
+- The standalone demo bundles the same app and actual snapshot, with an explicitly frozen clock. Its DOM execution is tested. The cloud browser blocks file URLs and local listeners; visual verification therefore uses the supported HTTPS deployment.
+- Email remains disabled without SMTP secrets and recipient configuration. Transport/TLS, cooldown, deduplication, durable intent, failure recovery and notification gating are tested with a fake transport; no real email was sent.
+
+## Previous release evidence
+
 # Release validation
 
 Checked on 2026-09-23 with Node.js 24 and Python 3.12 locally / Python 3.13
