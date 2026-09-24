@@ -45,7 +45,8 @@ class Client:
     def raw(self, url):
         for attempt in range(3):
             try:
-                req = Request(url, headers={"User-Agent": AGENT, "Accept": "text/html,application/json,application/javascript,text/plain,*/*;q=0.8", "Cache-Control": "no-cache"})
+                accept = "application/javascript,application/json,*/*" if urlsplit(url).path.endswith(".js") else "text/html,text/plain"
+                req = Request(url, headers={"User-Agent": AGENT, "Accept": accept, "Cache-Control": "no-cache"})
                 with self.opener(req, timeout=25) as r:
                     if urlsplit(r.url).hostname != urlsplit(url).hostname:
                         raise ValueError("Cross-host redirect rejected")

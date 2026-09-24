@@ -1,5 +1,5 @@
 // Same pure model runs in the browser, backtests, and scheduled notifications.
-export const DEFAULTS = Object.freeze({lookbackDays:90,minDays:30,zThreshold:2,maxPremiumPct:8,maxSpreadPct:10,minEdgePct:1,buyFeePct:.5,sellFeePct:.5,taxPct:0,fixedFeeCents:0,tradeQuantity:1,budgetCents:500000,maxAgeHours:6,cooldownHours:24,alertEnabled:false});
+export const DEFAULTS = Object.freeze({lookbackDays:90,minDays:30,zThreshold:2,maxPremiumPct:8,maxSpreadPct:10,minEdgePct:1,buyFeePct:.5,sellFeePct:.5,taxPct:0,fixedFeeCents:0,tradeQuantity:1,budgetCents:500000,maxAgeHours:1,cooldownHours:24,alertEnabled:false});
 const limits = {lookbackDays:[30,730],minDays:[10,365],zThreshold:[1,6],maxPremiumPct:[-20,100],maxSpreadPct:[0,100],minEdgePct:[0,50],buyFeePct:[0,30],sellFeePct:[0,30],taxPct:[0,50],fixedFeeCents:[0,10000000],tradeQuantity:[1,100000],budgetCents:[1,1000000000],maxAgeHours:[.25,48],cooldownHours:[1,720]};
 export function settings(input={}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw Error('Paramètres invalides.');
@@ -15,7 +15,22 @@ export function parisDay(value) { return dayFormatter.format(new Date(value)); }
 export function median(a) { if(!a.length)return null; const s=[...a].sort((x,y)=>x-y),m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2; }
 export function robust(values, value) { const center=median(values); if(center===null)return {center:null,scale:null,z:null}; const scale=Math.max(.25,1.4826*median(values.map(x=>Math.abs(x-center))));return {center,scale,z:(value-center)/scale}; }
 export const premium = (price,melt) => Number.isFinite(price)&&price>0&&Number.isFinite(melt)&&melt>0 ? (price/melt-1)*100 : null;
-export function fresh(q,now,maxAgeHours) { const age=new Date(now)-new Date(q.observedAt);return Number.isFinite(age)&&age>=-60000&&age<=maxAgeHours*3600000; }
+export const priceTime = q => q.publishedAt || q.observedAt;
+export function fresh(q,now,maxAgeHours) {
+  const observed=new Date(q.observedAt),published=new Date(priceTime(q)),at=new Date(now);
+  return [observed,published].every(t=>Number.isFinite(+t)&&at-t>=-60000&&at-t<=maxAgeHours*3600000)&&published-observed<=60000;
+}
+export function unitPrice(q,side,qty) {
+  const tiers=q[`${side}Tiers`];
+  if(!tiers)return q[side];
+  const tier=tiers.find(t=>qty>=t.min&&(t.max==null||qty<=t.max));
+  return tier?.price??null;
+}
+export function minimumOK(q,side,qty) {
+  const min=q[side==='ask'?'minBuy':'minSell'],max=q[side==='ask'?'maxBuy':'maxSell'];
+  return Number.isInteger(min)&&min>0&&qty>=min&&(max==null||qty<=max)&&unitPrice(q,side,qty)!=null;
+}
+export function comparable(q,side,qty) { return !!q?.valid&&!q.confirmationRequired&&minimumOK(q,side,qty); }
 export function costs(ask,bid,qty,s) {
   const buy = ask==null?null:Math.round(ask*qty*(1+s.buyFeePct/100)+s.fixedFeeCents);
   const sell = bid==null?null:Math.round(bid*qty*(1-(s.sellFeePct+s.taxPct)/100)-s.fixedFeeCents);
@@ -23,28 +38,42 @@ export function costs(ask,bid,qty,s) {
 }
 export function meltForQuote(q,product,spots=[]) {
   if(Number.isFinite(q.meltCents)&&q.meltCents>0)return q.meltCents;
-  const eligible=spots.filter(s=>s.metal===product.metal&&new Date(s.observedAt)<=new Date(q.observedAt)&&new Date(q.observedAt)-new Date(s.observedAt)<=6*3600000);
+  const eligible=spots.filter(s=>s.metal===product.metal&&new Date(s.observedAt)<=new Date(priceTime(q))&&new Date(priceTime(q))-new Date(s.observedAt)<=6*3600000);
   const spot=eligible.sort((a,b)=>new Date(b.observedAt)-new Date(a.observedAt))[0];
   return spot?Math.round(spot.eurPerGram*product.fineGrams*100):null;
 }
 // Keep each side's own timestamp, minimum and provenance; never refresh an old bid using a new ask.
 export function dealerRows(quotes,product,now,s,health=[]) {
-  const map=new Map(),bad=new Set(health.filter(h=>h.status!=='ok').map(h=>h.id));
+  const map=new Map(),status=new Map(health.map(h=>[h.id,h]));
   for(const q of [...quotes].filter(q=>q.product===product).sort((a,b)=>new Date(a.observedAt)-new Date(b.observedAt))) {
     if(!map.has(q.dealer))map.set(q.dealer,{dealer:q.dealer,product,ask:null,bid:null});
-    const r=map.get(q.dealer);
-    for(const side of ['ask','bid']) if(q[side]!=null) r[side]={...q,valid:fresh(q,now,s.maxAgeHours)&&!bad.has(q.source),value:q[side]};
+    const r=map.get(q.dealer),h=status.get(q.source);
+    for(const side of ['ask','bid']) {
+      if(q[side]==null) {
+        // Explicit absence on the latest page clears a previously priced side.
+        if(q.sideScope===side||q.sideScope==='both')r[side]=null;
+        continue;
+      }
+      const value=unitPrice(q,side,s.tradeQuantity);
+      const healthy=(!h||h.status==='ok')&&(!h?.checkedAt||new Date(h.checkedAt)-new Date(q.observedAt)<=1000);
+      r[side]={...q,valid:fresh(q,now,s.maxAgeHours)&&healthy&&!q.confirmationRequired&&!(side==='ask'&&q.availability==='unavailable'),value:value??q[side]};
+    }
   }
   return [...map.values()];
 }
-function minimumOK(q,side,qty) { const min=q[side==='ask'?'minBuy':'minSell'];return Number.isInteger(min)&&min>0&&qty>=min; }
+export function compareMarket(market,product,input={},now=new Date().toISOString()) {
+  const s=settings(input),rows=dealerRows(market.quotes,typeof product==='string'?product:product.id,now,s,market.health);
+  const asks=rows.map(r=>r.ask).filter(q=>comparable(q,'ask',s.tradeQuantity)).sort((a,b)=>a.value-b.value);
+  const bids=rows.map(r=>r.bid).filter(q=>comparable(q,'bid',s.tradeQuantity)).sort((a,b)=>b.value-a.value);
+  return {rows,ask:asks[0]??null,bid:bids[0]??null,asks,bids,quantity:s.tradeQuantity};
+}
 function training(history,q,product,spots,s) {
-  const day=parisDay(q.observedAt),cutoff=new Date(q.observedAt)-s.lookbackDays*86400000,days=new Map();
+  const day=parisDay(priceTime(q)),cutoff=new Date(priceTime(q))-s.lookbackDays*86400000,days=new Map();
   for(const h of [...history].sort((a,b)=>new Date(a.observedAt)-new Date(b.observedAt))) {
-    if(h.dealer!==q.dealer||h.product!==q.product||parisDay(h.observedAt)>=day||new Date(h.observedAt)<cutoff)continue;
+    if(h.dealer!==q.dealer||h.product!==q.product||h.confirmationRequired||!fresh(h,h.observedAt,s.maxAgeHours)||parisDay(priceTime(h))>=day||new Date(priceTime(h))<cutoff)continue;
     const melt=meltForQuote(h,product,spots);if(!melt)continue;
-    const d=parisDay(h.observedAt),row=days.get(d)||{};
-    for(const side of ['ask','bid'])if(h[side])row[side]=premium(h[side],melt);
+    const d=parisDay(priceTime(h)),row=days.get(d)||{};
+    for(const side of ['ask','bid'])if(unitPrice(h,side,s.tradeQuantity))row[side]=premium(unitPrice(h,side,s.tradeQuantity),melt);
     days.set(d,row);
   }
   return {ask:[...days.values()].map(d=>d.ask).filter(Number.isFinite),bid:[...days.values()].map(d=>d.bid).filter(Number.isFinite)};
@@ -59,11 +88,11 @@ export function analyze(market,product,input={},now=new Date().toISOString()) {
     const pair=row.ask?.valid&&row.bid?.valid?costs(row.ask.value,row.bid.value,s.tradeQuantity,s):null;
     const spread=pair?.edgePct==null?null:-pair.edgePct;
     const reasons=[];
-    if(!q.valid)reasons.push('Cours périmé ou source en erreur');
+    if(!q.valid)reasons.push(q.confirmationRequired||'Cours périmé ou source en erreur');
     if(q.spotObservedAt&&!fresh({observedAt:q.spotObservedAt},now,s.maxAgeHours))reasons.push('Spot périmé');
     if(q.spotSource&&(market.health||[]).some(h=>h.id===q.spotSource&&h.status!=='ok'))reasons.push('Source du spot en erreur');
     if(p==null)reasons.push('Spot contemporain indisponible');
-    if(!minimumOK(q,side,s.tradeQuantity))reasons.push('Quantité minimale non vérifiée ou non atteinte');
+    if(!minimumOK(q,side,s.tradeQuantity))reasons.push('Quantité non vérifiée ou hors de la plage publiée');
     if(train[side].length<s.minDays)reasons.push(`Historique insuffisant : ${train[side].length}/${s.minDays} jours`);
     let edge=null;
     if(type==='buy') {
@@ -100,7 +129,7 @@ export function crossDealer(market,product,input={},now=new Date().toISOString()
   const ask=asks.sort((a,b)=>a.value-b.value)[0],bid=bids.sort((a,b)=>b.value-a.value)[0];
   if(!ask||!bid)return null;
   const c=costs(ask.value,bid.value,s.tradeQuantity,s);
-  const synchronized=Math.abs(new Date(ask.observedAt)-new Date(bid.observedAt))<=15*60000;
+  const synchronized=Math.abs(new Date(priceTime(ask))-new Date(priceTime(bid)))<=15*60000;
   return {...c,buyDealer:ask.dealer,sellDealer:bid.dealer,excellent:synchronized&&c.buy<=s.budgetCents&&c.edgePct>=s.minEdgePct,quantity:s.tradeQuantity,synchronized,
     note:'Écart indicatif à confirmer : état, stock, quantité, fiscalité et simultanéité.'};
 }

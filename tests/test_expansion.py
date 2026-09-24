@@ -73,4 +73,15 @@ class ExpansionTests(unittest.TestCase):
   self.assertRaises(ParseError,quotes,'goldunion-coq',changed)
  def test_joubert_popular_coins_are_mapped_without_packs(self):
   q=quotes('joubert');self.assertEqual(len(q),32);self.assertIn('britanniagold',{x['product'] for x in q});self.assertNotIn('22239',{x['product'] for x in q})
+class ContentNegotiationTests(unittest.TestCase):
+ def test_html_and_public_jsonp_request_the_right_representation(self):
+  from collector.http import Client
+  from unittest.mock import MagicMock
+  opener=MagicMock()
+  response=opener.return_value.__enter__.return_value
+  response.read.return_value=b'example'
+  for url,expected in [('https://example.org/catalog','text/html,text/plain'),('https://example.org/feed/data.js','application/javascript,application/json,*/*')]:
+   response.url=url
+   Client(opener=opener).raw(url)
+   self.assertEqual(opener.call_args.args[0].get_header('Accept'),expected)
 if __name__=='__main__':unittest.main()
