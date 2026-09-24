@@ -3,18 +3,84 @@
     "id": "change-vivienne",
     "label": "Change Vivienne",
     "address": "48 rue Vivienne, Paris 2e",
-    "url": "https://changevivienne.com/"
+    "url": "https://changevivienne.com/",
+    "area": "vivienne"
   },
   {
     "id": "joubert",
     "label": "Maison Joubert",
-    "address": "38 rue Vivienne, Paris 2e",
-    "url": "https://maison-joubert.fr/"
+    "address": "38 bis rue Vivienne, Paris 2e",
+    "url": "https://maison-joubert.fr/",
+    "area": "vivienne"
   },
   {
     "id": "or-change",
     "label": "Or & Change",
     "address": "53 rue Vivienne, Paris 2e",
-    "url": "https://www.oretchange.com/"
+    "url": "https://www.oretchange.com/",
+    "area": "vivienne"
+  },
+  {
+    "id": "merson",
+    "label": "Merson",
+    "address": "33 rue Vivienne, Paris 2e",
+    "url": "https://www.merson.fr/",
+    "area": "vivienne"
+  },
+  {
+    "id": "godot",
+    "label": "Godot & Fils",
+    "address": "26 rue Vivienne, Paris 2e",
+    "url": "https://www.achat-or-et-argent.fr/",
+    "area": "vivienne"
+  },
+  {
+    "id": "vivienne-mp",
+    "label": "Vivienne Métaux Précieux",
+    "address": "43 rue Vivienne, Paris 2e",
+    "url": "https://viviennemetauxprecieux.fr/",
+    "area": "vivienne"
+  },
+  {
+    "id": "bourse",
+    "label": "Comptoir Vivienne de Bourse",
+    "address": "36 rue Vivienne, Paris 2e",
+    "url": "https://comptoir-or-bourse.fr/cours-boutique",
+    "area": "vivienne"
+  },
+  {
+    "id": "argentor",
+    "label": "Comptoir Argentor",
+    "address": "45 rue Vivienne, Paris 2e",
+    "url": "https://www.comptoir-argent-or.fr/",
+    "area": "vivienne"
+  },
+  {
+    "id": "abacor",
+    "label": "Abacor",
+    "address": "13 rue de Rivoli, Paris 4e",
+    "url": "https://www.abacor.fr/",
+    "area": "paris"
+  },
+  {
+    "id": "ccopera",
+    "label": "Comptoir Change Opéra",
+    "address": "9 rue Scribe, Paris 9e",
+    "url": "https://www.ccopera.com/",
+    "area": "paris"
+  },
+  {
+    "id": "goldunion",
+    "label": "GoldUnion",
+    "address": "77 rue de Rennes, Paris 6e",
+    "url": "https://goldunion.fr/",
+    "area": "paris"
+  },
+  {
+    "id": "arcades",
+    "label": "Arcades Change",
+    "address": "59 rue de Ponthieu, Paris 8e",
+    "url": "https://www.arcades-change.com/",
+    "area": "paris"
   }
 ]

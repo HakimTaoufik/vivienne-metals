@@ -1,0 +1,170 @@
+[
+  {
+    "source": "merson-gold-ask",
+    "url": "https://www.merson.fr/fr/18-achat-or-investissement",
+    "capturedAt": "2026-09-23T07:19:31.821487+00:00",
+    "rawSha256": "927c606c30dcd3c9740aa2e20cab857811584c24da67298b32e1f48c40854c1f",
+    "fixtureSha256": "d4e75c1cd7e522369ac1a0906fc7383d5c1fd6c8df9b12a490f46fb9d4e9b236",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "merson-gold-bid",
+    "url": "https://www.merson.fr/fr/19-vendre-or",
+    "capturedAt": "2026-09-23T11:36:24.061609+00:00",
+    "rawSha256": "0185953347549457681fae4afb87e8b5e8394958b86bf54d1b8a899e5fa57abe",
+    "fixtureSha256": "0eeac766c497201e73720bc3e25779970f133842d4e3a2a7b771af127077083c",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "merson-silver-ask",
+    "url": "https://www.merson.fr/fr/21-argent-achat",
+    "capturedAt": "2026-09-23T11:36:38.966757+00:00",
+    "rawSha256": "6d3bf1ed4520c3ad3062b0884a984fee02534d8c8b6bf07181ecdd5e9e335ad4",
+    "fixtureSha256": "97de38e7933304c73490ec0b716ef34900f2406ca51acab925a07a1db117bd22",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "merson-silver-bid",
+    "url": "https://www.merson.fr/fr/22-argent-vente",
+    "capturedAt": "2026-09-23T11:36:59.298025+00:00",
+    "rawSha256": "0ba52caa3da1e3f85cee5834500c46b2946b54c5cf373cd6cd41373a6dbb21ab",
+    "fixtureSha256": "da39472f04acf6e7699853b6a7e07df83846dbcf2b9893d32d9116f2c8d9e4b5",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "godot-gold",
+    "url": "https://www.achat-or-et-argent.fr/or/cours-de-l-or",
+    "capturedAt": "2026-09-23T11:36:20.844555+00:00",
+    "rawSha256": "5d8a1a17c869d9feb8437e595154016174a25ba43475a91a6c6e07f564771c8e",
+    "fixtureSha256": "87424db0e64af8d55c3937647652e32d4d19bd4e4f4b8fe0617c250269fdc305",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "godot-silver",
+    "url": "https://www.achat-or-et-argent.fr/argent/cours-de-l-argent",
+    "capturedAt": "2026-09-23T11:38:02.883301+00:00",
+    "rawSha256": "f32c13025928aa8dcbbe62a5bfc3d8c2a2e189a9cf29cdb74ac118193ab8b79d",
+    "fixtureSha256": "43ca73d047189e9db02c16d00a44ec21a1c9bc97f3e8887bee82e6ca4b763b01",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "godot-napoleon",
+    "url": "https://www.achat-or-et-argent.fr/or/20-francs-napoleon/6",
+    "capturedAt": "2026-09-23T11:47:05+00:00",
+    "rawSha256": "08be799a01c668c5d7389e5c136496c584e889c6d228431e566f7fcf4241f714",
+    "fixtureSha256": "9a406d291d95bc2546005e2a87a4e4176c2ac221fcf285aa223027f7fc949c3f",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "vivienne-mp",
+    "url": "https://viviennemetauxprecieux.fr/",
+    "capturedAt": "2026-09-23T07:19:24.045512+00:00",
+    "rawSha256": "afccb696449b12dc13e7ebca217374b2099a6d771c80f8e12755c4aed3d5a9e9",
+    "fixtureSha256": "6c78e5684c6aaaecbb31e2bec5aafd429a3c387078e2e87d28be83183394ba4f",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "bourse",
+    "url": "https://ydp.io/plcjg/data.js",
+    "capturedAt": "2026-09-23T11:39:28.144694+00:00",
+    "rawSha256": "c67b0ef4582895575e53ec71a820787f45534da21305d866e24ce5ebe689abca",
+    "fixtureSha256": "3635d7096d3a53f7758f704943be8d637388f86e54ba3511f315ef2379b12bab",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "argentor",
+    "url": "https://ydp.io/uhmzy/data.js",
+    "capturedAt": "2026-09-23T11:39:34.398052+00:00",
+    "rawSha256": "8441d0104f3e5489bd79f81e289f0912217031e5c1ea83029af600c65f3032f4",
+    "fixtureSha256": "54555c2a418d37a7fa92bf78c0890116f3730a602e5bf8b14a4c486600c96eb7",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "arcades",
+    "url": "https://www.arcades-change.com/cours-de-lor/",
+    "capturedAt": "2026-09-23T11:38:15.589877+00:00",
+    "rawSha256": "5ac54977ec70f724f6ddeadec9a74e8286dc714ad84a29c588e62af29898f468",
+    "fixtureSha256": "4f3f950ec534471bbbd01b66b77ea0b2d95fa5dafa704c27c2a78a79cd283dde",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "abacor-gold",
+    "url": "https://www.abacor.fr/boutique/achat-or/pieces-d-or/",
+    "capturedAt": "2026-09-23T11:36:41.551660+00:00",
+    "rawSha256": "bd2bf2190396f0fd9024bb2d87db55139329b5d7719a42b403f5c5c115868b87",
+    "fixtureSha256": "e82b6039cca116c9b63c6df8554c4367db93ea10cdc12001cf4a09069ca01e0c",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "abacor-bars",
+    "url": "https://www.abacor.fr/boutique/achat-or/lingots-d-or/",
+    "capturedAt": "2026-09-23T11:47:07+00:00",
+    "rawSha256": "561bea5e24fdb9314f5b27b847b7a95bfbe29eeaea0123367e03a4bbd44cd23b",
+    "fixtureSha256": "549d101668e9f8f19a605912264188fad713469124c7548ac36baf2f75efef76",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "abacor-silver",
+    "url": "https://www.abacor.fr/boutique/achat-argent/pieces-d-argent/",
+    "capturedAt": "2026-09-23T11:47:16+00:00",
+    "rawSha256": "43e81ddea8a08ae470e46d3b896ca1d0153641183d84d157f283fcbe98401c0e",
+    "fixtureSha256": "f472cd91d985de52ca2e1e6b167ae05b3312aaeb575e4506603a7ca4e64b77aa",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "ccopera-coins-ask",
+    "url": "https://www.ccopera.com/metaux-precieux/or-de-bourse/pieces/prix-vente.html",
+    "capturedAt": "2026-09-23T11:38:01.693818+00:00",
+    "rawSha256": "202e8064f67e6f1df5f88ad4312f901c6b8c21812c91b702c689df938cec1ba6",
+    "fixtureSha256": "e87fc391fff3fc5f85728178a0ed413b66a4dfee2fb064e0052c3655085c4409",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "ccopera-coins-bid",
+    "url": "https://www.ccopera.com/metaux-precieux/or-de-bourse/pieces/prix-achat.html",
+    "capturedAt": "2026-09-23T11:47:02+00:00",
+    "rawSha256": "e68a2388e2a6e31af62198a810348ed3623554c8bf4412eeac07d832501397d8",
+    "fixtureSha256": "1a96f69252c106c84cd2ef730bc17f1daacf20592b55e55167a684da2de72706",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "ccopera-bars-ask",
+    "url": "https://www.ccopera.com/metaux-precieux/or-de-bourse/lingots/prix-vente.html",
+    "capturedAt": "2026-09-23T11:47:10+00:00",
+    "rawSha256": "10f3de3bb72701c859bd006082cec7f3615532fafd9e0645f41125f487f00a16",
+    "fixtureSha256": "8647a312a5b6c0b140905c30185545cc62a9c528b0dffd7eb1edf56371ba4741",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "ccopera-silver-ask",
+    "url": "https://www.ccopera.com/metaux-precieux/argent-metal/pieces-francaises/prix-vente.html",
+    "capturedAt": "2026-09-23T11:47:18+00:00",
+    "rawSha256": "cd94b4b5715f877994c4e73effe4fe47d7f9167bdf126e749406b118edfa06df",
+    "fixtureSha256": "03033f1686fddfc4f8ffa5a244c068b0b3db5b16e7f6c4acf1186eecff68f617",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "goldunion-coq",
+    "url": "https://goldunion.fr/products/20-francs-coq",
+    "capturedAt": "2026-09-23T11:38:00.718910+00:00",
+    "rawSha256": "791cbe22dbcadf97d4e25b397e3cc39c5dc5cf1ae06f633f36e2c1b324ee3861",
+    "fixtureSha256": "310a28b38ec5e2e0e61de4582010b2243ce3d1355d39cf7d0dff854b5015362d",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "goldunion-napoleon",
+    "url": "https://goldunion.fr/products/20-francs-napoleon",
+    "capturedAt": "2026-09-23T11:46:58+00:00",
+    "rawSha256": "bb976ce1805c8237755fc6c5ea099610219c96edb78fb5e21267c94267172834",
+    "fixtureSha256": "466f0b82d896f0506ac1ba537058e42b58cc67c27ebefdf73ae236e8de0587ac",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  },
+  {
+    "source": "goldunion-suisse",
+    "url": "https://goldunion.fr/products/20-francs-suisse",
+    "capturedAt": "2026-09-23T11:47:09+00:00",
+    "rawSha256": "b81aac34eeb0eea161a01a883e7e08fd434f76d781ae71cb824712a9a9b22087",
+    "fixtureSha256": "145675e884f59fd3ca9352d255c57a872f2350e37ab2b94bcd201aa1e079e36c",
+    "sanitization": "Public price tables / product JSON-LD only; unrelated scripts and images removed"
+  }
+]

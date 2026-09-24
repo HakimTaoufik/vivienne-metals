@@ -83,5 +83,157 @@
     "side": "bid",
     "url": "https://www.oretchange.com/29-vendre-pieces-argent",
     "fixture": "oc-silver-sell"
+  },
+  {
+    "id": "merson-gold-ask",
+    "dealer": "merson",
+    "adapter": "merson",
+    "url": "https://www.merson.fr/fr/18-achat-or-investissement",
+    "side": "ask"
+  },
+  {
+    "id": "merson-gold-bid",
+    "dealer": "merson",
+    "adapter": "merson",
+    "url": "https://www.merson.fr/fr/19-vendre-or",
+    "side": "bid"
+  },
+  {
+    "id": "merson-silver-ask",
+    "dealer": "merson",
+    "adapter": "merson",
+    "url": "https://www.merson.fr/fr/21-argent-achat",
+    "side": "ask"
+  },
+  {
+    "id": "merson-silver-bid",
+    "dealer": "merson",
+    "adapter": "merson",
+    "url": "https://www.merson.fr/fr/22-argent-vente",
+    "side": "bid"
+  },
+  {
+    "id": "godot-gold",
+    "dealer": "godot",
+    "adapter": "godot",
+    "url": "https://www.achat-or-et-argent.fr/or/cours-de-l-or",
+    "metal": "gold",
+    "exclude": [
+      "napoleon20"
+    ]
+  },
+  {
+    "id": "godot-silver",
+    "dealer": "godot",
+    "adapter": "godot",
+    "url": "https://www.achat-or-et-argent.fr/argent/cours-de-l-argent",
+    "metal": "silver"
+  },
+  {
+    "id": "godot-napoleon",
+    "dealer": "godot",
+    "adapter": "godot_product",
+    "url": "https://www.achat-or-et-argent.fr/or/20-francs-napoleon/6",
+    "product": "napoleon20"
+  },
+  {
+    "id": "vivienne-mp",
+    "dealer": "vivienne-mp",
+    "adapter": "vmp",
+    "url": "https://viviennemetauxprecieux.fr/"
+  },
+  {
+    "id": "bourse",
+    "dealer": "bourse",
+    "adapter": "ydp",
+    "url": "https://comptoir-or-bourse.fr/cours-boutique",
+    "fetchUrl": "https://ydp.io/plcjg/data.js"
+  },
+  {
+    "id": "argentor",
+    "dealer": "argentor",
+    "adapter": "ydp",
+    "url": "https://www.comptoir-argent-or.fr/",
+    "confirmationRequired": "Le site Argentor annonce des prix en cours de mise à jour ; confirmation obligatoire.",
+    "fetchUrl": "https://ydp.io/uhmzy/data.js"
+  },
+  {
+    "id": "arcades",
+    "dealer": "arcades",
+    "adapter": "arcades",
+    "url": "https://www.arcades-change.com/cours-de-lor/"
+  },
+  {
+    "id": "abacor-gold",
+    "dealer": "abacor",
+    "adapter": "abacor",
+    "url": "https://www.abacor.fr/boutique/achat-or/pieces-d-or/",
+    "side": "ask"
+  },
+  {
+    "id": "abacor-bars",
+    "dealer": "abacor",
+    "adapter": "abacor",
+    "url": "https://www.abacor.fr/boutique/achat-or/lingots-d-or/",
+    "side": "ask"
+  },
+  {
+    "id": "abacor-silver",
+    "dealer": "abacor",
+    "adapter": "abacor",
+    "url": "https://www.abacor.fr/boutique/achat-argent/pieces-d-argent/",
+    "side": "ask"
+  },
+  {
+    "id": "ccopera-coins-ask",
+    "dealer": "ccopera",
+    "adapter": "ccopera",
+    "url": "https://www.ccopera.com/metaux-precieux/or-de-bourse/pieces/prix-vente.html",
+    "side": "ask"
+  },
+  {
+    "id": "ccopera-coins-bid",
+    "dealer": "ccopera",
+    "adapter": "ccopera",
+    "url": "https://www.ccopera.com/metaux-precieux/or-de-bourse/pieces/prix-achat.html",
+    "side": "bid"
+  },
+  {
+    "id": "ccopera-bars-ask",
+    "dealer": "ccopera",
+    "adapter": "ccopera",
+    "url": "https://www.ccopera.com/metaux-precieux/or-de-bourse/lingots/prix-vente.html",
+    "side": "ask"
+  },
+  {
+    "id": "ccopera-silver-ask",
+    "dealer": "ccopera",
+    "adapter": "ccopera",
+    "url": "https://www.ccopera.com/metaux-precieux/argent-metal/pieces-francaises/prix-vente.html",
+    "side": "ask"
+  },
+  {
+    "id": "goldunion-coq",
+    "dealer": "goldunion",
+    "adapter": "goldunion_product",
+    "url": "https://goldunion.fr/products/20-francs-coq",
+    "product": "coq20",
+    "side": "ask"
+  },
+  {
+    "id": "goldunion-napoleon",
+    "dealer": "goldunion",
+    "adapter": "goldunion_product",
+    "url": "https://goldunion.fr/products/20-francs-napoleon",
+    "product": "napoleon20",
+    "side": "ask"
+  },
+  {
+    "id": "goldunion-suisse",
+    "dealer": "goldunion",
+    "adapter": "goldunion_product",
+    "url": "https://goldunion.fr/products/20-francs-suisse",
+    "product": "swiss20",
+    "side": "ask"
   }
 ]

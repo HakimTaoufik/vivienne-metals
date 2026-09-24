@@ -1,7 +1,7 @@
 [
   {
     "id": "napoleon20",
-    "label": "20 F Napoléon / Génie",
+    "label": "20 F Napoléon · type variable",
     "metal": "gold",
     "fineGrams": 5.806449,
     "kind": "coin"
@@ -131,5 +131,306 @@
     "metal": "silver",
     "fineGrams": 999.9,
     "kind": "bar"
+  },
+  {
+    "id": "napoleon10",
+    "label": "10 F Napoléon · type variable",
+    "metal": "gold",
+    "fineGrams": 2.903225,
+    "kind": "coin"
+  },
+  {
+    "id": "swiss20",
+    "label": "20 F Suisse / Vreneli",
+    "metal": "gold",
+    "fineGrams": 5.806449,
+    "kind": "coin"
+  },
+  {
+    "id": "latin20",
+    "label": "20 F Union latine · type variable",
+    "metal": "gold",
+    "fineGrams": 5.806449,
+    "kind": "coin"
+  },
+  {
+    "id": "tunisia20",
+    "label": "20 F Tunisie",
+    "metal": "gold",
+    "fineGrams": 5.806449,
+    "kind": "coin"
+  },
+  {
+    "id": "sovereign",
+    "label": "Souverain · type variable",
+    "metal": "gold",
+    "fineGrams": 7.32238,
+    "kind": "coin"
+  },
+  {
+    "id": "sovereigngeorge",
+    "label": "Souverain George",
+    "metal": "gold",
+    "fineGrams": 7.32238,
+    "kind": "coin"
+  },
+  {
+    "id": "sovereignelizabeth",
+    "label": "Souverain Elizabeth II",
+    "metal": "gold",
+    "fineGrams": 7.32238,
+    "kind": "coin"
+  },
+  {
+    "id": "halfsovereign",
+    "label": "Demi-souverain",
+    "metal": "gold",
+    "fineGrams": 3.66119,
+    "kind": "coin"
+  },
+  {
+    "id": "usd20",
+    "label": "20 dollars US · type variable",
+    "metal": "gold",
+    "fineGrams": 30.0926,
+    "kind": "coin"
+  },
+  {
+    "id": "usd10",
+    "label": "10 dollars US · type variable",
+    "metal": "gold",
+    "fineGrams": 15.0463,
+    "kind": "coin"
+  },
+  {
+    "id": "usd10liberty",
+    "label": "10 dollars Liberty",
+    "metal": "gold",
+    "fineGrams": 15.0463,
+    "kind": "coin"
+  },
+  {
+    "id": "usd10indian",
+    "label": "10 dollars Indian Head",
+    "metal": "gold",
+    "fineGrams": 15.0463,
+    "kind": "coin"
+  },
+  {
+    "id": "usd5",
+    "label": "5 dollars US",
+    "metal": "gold",
+    "fineGrams": 7.52315,
+    "kind": "coin"
+  },
+  {
+    "id": "pesos50",
+    "label": "50 pesos Mexique",
+    "metal": "gold",
+    "fineGrams": 37.5,
+    "kind": "coin"
+  },
+  {
+    "id": "florins10",
+    "label": "10 florins Pays-Bas",
+    "metal": "gold",
+    "fineGrams": 6.0561,
+    "kind": "coin"
+  },
+  {
+    "id": "marks20",
+    "label": "20 marks Allemagne",
+    "metal": "gold",
+    "fineGrams": 7.1685,
+    "kind": "coin"
+  },
+  {
+    "id": "roubles5",
+    "label": "5 roubles Russie",
+    "metal": "gold",
+    "fineGrams": 3.87117,
+    "kind": "coin"
+  },
+  {
+    "id": "krugerrand",
+    "label": "Krugerrand · 1 oz or",
+    "metal": "gold",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "maplegold",
+    "label": "Maple Leaf · 1 oz or",
+    "metal": "gold",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "eaglegold",
+    "label": "American Eagle · 1 oz or",
+    "metal": "gold",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "buffalogold",
+    "label": "Buffalo · 1 oz or",
+    "metal": "gold",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "philharmonicgold",
+    "label": "Philharmonique · 1 oz or",
+    "metal": "gold",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "kangaroogold",
+    "label": "Kangourou · 1 oz or",
+    "metal": "gold",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "maplesilver",
+    "label": "Maple Leaf · 1 oz argent",
+    "metal": "silver",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "eaglesilver",
+    "label": "American Eagle · 1 oz argent",
+    "metal": "silver",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "philharmonicsilver",
+    "label": "Philharmonique · 1 oz argent",
+    "metal": "silver",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "krugerrandsilver",
+    "label": "Krugerrand · 1 oz argent",
+    "metal": "silver",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "ecu5",
+    "label": "5 F Écu · type variable",
+    "metal": "silver",
+    "fineGrams": 22.5,
+    "kind": "coin"
+  },
+  {
+    "id": "semeuse2",
+    "label": "2 F Semeuse argent",
+    "metal": "silver",
+    "fineGrams": 8.35,
+    "kind": "coin"
+  },
+  {
+    "id": "semeuse1",
+    "label": "1 F Semeuse argent",
+    "metal": "silver",
+    "fineGrams": 4.175,
+    "kind": "coin"
+  },
+  {
+    "id": "semeuse050",
+    "label": "50 centimes Semeuse argent",
+    "metal": "silver",
+    "fineGrams": 2.0875,
+    "kind": "coin"
+  },
+  {
+    "id": "turin20",
+    "label": "20 F Turin argent",
+    "metal": "silver",
+    "fineGrams": 13.6,
+    "kind": "coin"
+  },
+  {
+    "id": "turin10",
+    "label": "10 F Turin argent",
+    "metal": "silver",
+    "fineGrams": 6.8,
+    "kind": "coin"
+  },
+  {
+    "id": "francs100silver",
+    "label": "100 F argent · type variable",
+    "metal": "silver",
+    "fineGrams": 15,
+    "kind": "coin"
+  },
+  {
+    "id": "gold2",
+    "label": "Or · 2 g",
+    "metal": "gold",
+    "fineGrams": 1.9998,
+    "kind": "bar"
+  },
+  {
+    "id": "silver100",
+    "label": "Argent · 100 g · lingot classique",
+    "metal": "silver",
+    "fineGrams": 99.9,
+    "kind": "bar"
+  },
+  {
+    "id": "silver250",
+    "label": "Argent · 250 g · lingot classique",
+    "metal": "silver",
+    "fineGrams": 249.75,
+    "kind": "bar"
+  },
+  {
+    "id": "silver500",
+    "label": "Argent · 500 g · lingot classique",
+    "metal": "silver",
+    "fineGrams": 499.5,
+    "kind": "bar"
+  },
+  {
+    "id": "silver1000",
+    "label": "Argent · 1000 g · lingot classique",
+    "metal": "silver",
+    "fineGrams": 999.0,
+    "kind": "bar"
+  },
+  {
+    "id": "silver5000",
+    "label": "Argent · 5000 g · lingot classique",
+    "metal": "silver",
+    "fineGrams": 4995.0,
+    "kind": "bar"
+  },
+  {
+    "id": "britanniagold",
+    "label": "Britannia · 1 oz or",
+    "metal": "gold",
+    "fineGrams": 31.1034768,
+    "kind": "coin"
+  },
+  {
+    "id": "pandagold30",
+    "label": "Panda · 30 g or",
+    "metal": "gold",
+    "fineGrams": 29.997,
+    "kind": "coin"
+  },
+  {
+    "id": "halfkrugerrand",
+    "label": "Krugerrand · 1/2 oz or",
+    "metal": "gold",
+    "fineGrams": 15.5517384,
+    "kind": "coin"
   }
 ]

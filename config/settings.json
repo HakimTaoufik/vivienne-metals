@@ -11,7 +11,7 @@
   "fixedFeeCents": 0,
   "tradeQuantity": 1,
   "budgetCents": 500000,
-  "maxAgeHours": 6,
+  "maxAgeHours": 1,
   "cooldownHours": 24,
   "alertEnabled": false
 }

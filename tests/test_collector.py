@@ -75,7 +75,7 @@ class AdapterTests(unittest.TestCase):
         html=re.sub(r'<input\b[^>]*class="[^"]*qty-input"[^>]*>',
                     '<span class="text-sm italic text-grey-800">Rupture de stock</span>',fixture('joubert'))
         quotes,_=parse(html,source('joubert'),STAMP)
-        self.assertEqual(len(quotes),10)
+        self.assertEqual(len(quotes),32)
         self.assertTrue(all(q['ask'] is None and q['bid'] is None and q['minBuy'] is None
                             and q['availability']=='unavailable' for q in quotes))
     def test_joubert_missing_quantity_without_stock_label_fails_closed(self):

@@ -14,3 +14,5 @@ const market=JSON.parse(await readFile(marketPath,'utf8'));if(market.schemaVersi
 await copyFile(marketPath,join(out,'data/market.json'));
 try{await copyFile(process.env.NOTIFICATION_STATUS_PATH||'data/notifications.json',join(out,'data/notifications.json'));}catch{}
 console.log('Built static GitHub Pages dashboard. Public files contain market data only.');
+
+await import('./demo.mjs');

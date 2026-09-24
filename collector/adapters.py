@@ -44,7 +44,14 @@ for g in [1, 5, 10, 20, 50, 100, 250, 500]:
     for name in [f"lingot {g} g or", f"lingotin {g} g or", f"lingotin or {g} g", f"lingotin or {g}g"]:
         NAMES[name] = f"gold{g}"
 
+from .catalog import ALIASES
+for product, names in ALIASES.items():
+    for name in names:
+        NAMES[norm(name)] = product
+
 JOUBERT = {"11028": "napoleon20", "10980": "gold1000", "10991": "gold500", "10992": "gold250", "10993": "gold100", "10996": "gold50", "10997": "goldoz", "10999": "gold20", "11003": "gold10", "11004": "gold5"}
+
+JOUBERT.update({"11036":"swiss20","11039":"pesos50","11042":"krugerrand","11045":"sovereign","11048":"sovereignelizabeth","11051":"halfsovereign","11054":"florins10","11057":"marks20","11060":"latin20","11063":"tunisia20","11066":"napoleon10","11069":"usd20","11072":"usd10","11075":"usd5","11078":"eaglegold","11081":"maplegold","11084":"buffalogold","11087":"philharmonicgold","11090":"kangaroogold","22238":"britanniagold","11093":"pandagold30","11096":"halfkrugerrand"})
 
 
 def clean_url(url):
@@ -75,7 +82,7 @@ def positive_int(v):
 def base(source, product, url, observed):
     return dict(dealer=source["dealer"], product=product, source=source["id"], url=clean_url(url),
                 observedAt=observed, bid=None, ask=None, minBuy=None, minSell=None,
-                availability="unknown", currency="EUR")
+                availability="unknown", currency="EUR", sideScope=source.get("side", "both"))
 
 
 def parse(html, source, observed):
@@ -175,7 +182,8 @@ def parse(html, source, observed):
             # Category pages don't establish minimum quantities or stock.
             quotes.append(q)
     else:
-        raise ParseError("Unknown adapter")
+        from .expanded import parse_expanded
+        quotes, spots = parse_expanded(html, source, observed)
     if not quotes:
         raise ParseError("No recognized products; mapping or layout changed")
     for q in quotes:

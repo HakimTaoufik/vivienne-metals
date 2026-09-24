@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+from urllib.parse import urlsplit
 from .adapters import parse, ParseError
 from .http import Client
 from .store import connect, previous, save, export
@@ -41,13 +42,13 @@ def collect(db_path, destination, sources=None, fetcher=None):
     # Parallel across dealers, sequential within each host; requests remain modest.
     groups = {}
     for source in sources:
-        groups.setdefault(source["dealer"], []).append(source)
+        groups.setdefault(urlsplit(source.get("fetchUrl", source["url"])).netloc, []).append(source)
 
     def fetch_group(group):
         client, results = Client(), []
         for source in group:
             try:
-                body = fetcher(source) if fetcher else client.get(source["url"])
+                body = fetcher(source) if fetcher else client.get(source.get("fetchUrl", source["url"]))
                 observed = now()
                 quotes, spots = parse(body, source, observed)
                 results.append((source, quotes, spots, dict(id=source["id"], dealer=source["dealer"], url=source["url"],

@@ -21,14 +21,21 @@
       <button data-tab="signals" class="nav-button">Opportunités</button>
       <button data-tab="settings" class="nav-button">Paramètres</button>
     </nav>
-    <div class="header-meta"><span class="paris-label">RUE VIVIENNE</span><span id="clock">Paris · EUR</span></div>
+    <div class="header-meta"><span class="paris-label">VIVIENNE & PARIS</span><span id="clock">Paris · EUR</span></div>
   </header>
   <main id="main" tabindex="-1">
     <div id="global-error" class="notice error" hidden></div>
     <section id="view-market" class="view">
-      <div class="page-heading"><div><p class="eyebrow">LE COMPTOIR</p><h1>Le marché, en un regard.</h1></div><button id="refresh" class="button secondary">↻ Actualiser</button></div>
+      <div class="page-heading"><div><p class="eyebrow">LE COMPTOIR</p><h1>Le marché, en un regard.</h1></div><button id="refresh" class="button secondary">↻ Recharger les données</button></div>
       <div class="spot-strip" id="spot-strip"><p>Chargement des cours…</p></div>
       <div class="market-toolbar"><div class="segments" aria-label="Métal"><button data-metal="gold" class="selected" aria-pressed="true">Or</button><button data-metal="silver" aria-pressed="false">Argent</button></div><label class="product-selector">Produit <select id="product-select" aria-label="Produit suivi"></select></label><span class="muted" id="product-spec"></span></div>
+      <div class="comparison-controls">
+        <div class="segments" aria-label="Quartier"><button data-area="all" class="selected" aria-pressed="true">Tout Paris</button><button data-area="vivienne" aria-pressed="false">Rue Vivienne</button></div>
+        <label>Boutique <select id="dealer-select" aria-label="Boutique comparée"><option value="all">Toutes les boutiques</option></select></label>
+        <label>Quantité à comparer <input id="compare-quantity" type="number" min="1" max="100000" step="1" value="1" aria-label="Quantité à comparer"></label>
+        <span id="comparison-context" class="small-note"></span>
+      </div>
+      <p id="freshness-note" class="snapshot-note"></p>
       <div class="market-layout">
         <section class="panel history-panel" aria-labelledby="chart-title">
           <div class="panel-heading"><div><p class="eyebrow">HISTORIQUE EN EUROS</p><h2 id="chart-title">Évolution des prix</h2></div><div class="segments compact" aria-label="Période"><button data-period="7">7 j</button><button data-period="30">30 j</button><button data-period="90" class="selected" aria-pressed="true">90 j</button><button data-period="365">1 an</button></div></div>
@@ -38,7 +45,8 @@
         </section>
         <aside class="summary-stack" id="product-summary"></aside>
       </div>
-      <section class="panel comparison-panel"><div class="panel-heading"><div><p class="eyebrow">LES BOUTIQUES</p><h2>Comparer avant de passer.</h2></div><span class="pill">Prix par unité · EUR</span></div><div id="dealer-table" class="table-scroll"></div><p class="footnote">Vous payez = achat en boutique. Vous recevez = rachat par la boutique. Prix indicatifs, état et disponibilité à confirmer.</p></section>
+      <section class="panel comparison-panel"><div class="panel-heading"><div><p class="eyebrow">LES BOUTIQUES</p><h2>Comparer avant de passer.</h2></div><div class="segments compact" aria-label="Trier les boutiques"><button data-sort="ask" class="selected" aria-pressed="true">Achat ↑</button><button data-sort="bid" aria-pressed="false">Revente ↓</button></div></div><div id="dealer-table" class="table-scroll"></div><p class="footnote">Vous payez = achat en boutique. Vous recevez = rachat par la boutique. Prix unitaires publiés ; frais personnels dans le résumé. Les minimums inconnus, volumes hors plage, cours anciens et sources à confirmer sont exclus des meilleurs prix. État et disponibilité à confirmer.</p></section>
+      <section class="panel shops-panel"><div class="panel-heading"><div><p class="eyebrow">COUVERTURE RÉELLE</p><h2>Les comptoirs de Paris.</h2></div><span id="coverage-count" class="pill"></span></div><div id="shop-directory" class="shop-directory"></div></section>
       <details class="sources-panel"><summary id="source-summary">État des sources</summary><div id="sources-list"></div></details>
     </section>
     <section id="view-portfolio" class="view" hidden>
@@ -61,9 +69,9 @@
         <section class="panel"><p class="eyebrow">MODÈLE</p><h2>Définir « excellent »</h2><div id="model-fields" class="form-grid"></div></section>
         <section class="panel"><p class="eyebrow">EXÉCUTION</p><h2>Intégrer vos coûts</h2><div id="cost-fields" class="form-grid"></div><p class="footnote">La taxe est une provision paramétrable sur le produit de vente. Aucun régime fiscal personnel n’est déduit automatiquement.</p></section>
       </div><div class="settings-actions"><button type="submit" class="button">Enregistrer dans ce navigateur</button><button type="button" id="export-settings" class="button secondary">Exporter pour les emails</button></div></form>
-      <section class="panel email-panel"><div class="panel-heading"><div><p class="eyebrow">ALERTES EMAIL</p><h2>Le marché continue, même site fermé.</h2></div><span id="email-status" class="pill">À configurer</span></div><p>Activez les emails dans le fichier exporté, puis remplacez <code>config/settings.json</code> dans GitHub. Ajoutez les secrets <code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_USER</code>, <code>SMTP_PASSWORD</code>, <code>SMTP_FROM</code> et <code>ALERT_TO</code> dans les paramètres du dépôt.</p><label class="check-line"><input id="alert-enabled" type="checkbox">Activer les alertes dans la configuration exportée</label><p class="footnote">Une collecte est prévue toutes les heures. GitHub peut retarder une exécution. Les clés email et l’adresse destinataire ne sont jamais stockées sur cette page.</p></section>
+      <section class="panel email-panel"><div class="panel-heading"><div><p class="eyebrow">ALERTES EMAIL</p><h2>Le marché continue, même site fermé.</h2></div><span id="email-status" class="pill">À configurer</span></div><p>Activez les emails dans le fichier exporté, puis remplacez <code>config/settings.json</code> dans GitHub. Ajoutez les secrets <code>SMTP_HOST</code>, <code>SMTP_PORT</code>, <code>SMTP_USER</code>, <code>SMTP_PASSWORD</code>, <code>SMTP_FROM</code> et <code>ALERT_TO</code> dans les paramètres du dépôt.</p><label class="check-line"><input id="alert-enabled" type="checkbox">Activer les alertes dans la configuration exportée</label><p class="footnote">Une collecte est prévue toutes les 15 minutes. GitHub peut retarder une exécution. Les clés email et l’adresse destinataire ne sont jamais stockées sur cette page.</p></section>
     </section>
-    <footer><span>VIVIENNE <span class="footer-dot">/</span> Observatoire indépendant</span><span id="version-label">v0.6.1 · EUR · Europe/Paris</span><span>Vérifiez le prix exécutable en boutique.</span></footer>
+    <footer><span>VIVIENNE <span class="footer-dot">/</span> Observatoire indépendant</span><span id="version-label">v0.7.0 · EUR · Europe/Paris</span><span>Vérifiez le prix exécutable en boutique.</span></footer>
   </main>
   <dialog id="transaction-dialog"><form id="transaction-form"><div class="dialog-heading"><h2 id="transaction-title">Ajouter une opération</h2><button type="button" id="close-dialog" class="icon-button" aria-label="Fermer">×</button></div><input type="hidden" name="id"><div class="form-grid"><label>Opération<select name="type" aria-label="Opération"><option value="buy">Achat / avoir initial</option><option value="sell">Vente</option></select></label><label>Produit<select name="product"></select></label><label>Date<input name="date" type="date" required></label><label>Quantité<input name="quantity" type="number" min="1" step="1" value="1" required></label><label>Prix payé / reçu par unité (€)<input name="price" type="number" min="0.01" step="0.01" required></label><label>Frais totaux (€)<input name="fees" type="number" min="0" step="0.01" value="0" required></label></div><label class="full-label">Note (facultatif)<input name="note" maxlength="500" placeholder="Boutique, état, référence…"></label><p id="transaction-error" class="form-error" role="alert"></p><div class="dialog-actions"><button type="button" id="cancel-dialog" class="button secondary">Annuler</button><button type="submit" class="button">Enregistrer l’opération</button></div></form></dialog>
   <div id="toast" role="status" aria-live="polite" hidden></div>

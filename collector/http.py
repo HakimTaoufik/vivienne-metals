@@ -5,7 +5,7 @@ from urllib.parse import urlsplit
 import re
 import time
 
-AGENT = "VivienneMetals/0.1 (personal market monitor; hourly)"
+AGENT = "VivienneMetals/0.7 (public Paris price monitor)"
 
 
 def robots_allowed(text, path, agent="viviennemetals"):
@@ -45,7 +45,8 @@ class Client:
     def raw(self, url):
         for attempt in range(3):
             try:
-                req = Request(url, headers={"User-Agent": AGENT, "Accept": "text/html,text/plain"})
+                accept = "application/javascript,application/json,*/*" if urlsplit(url).path.endswith(".js") else "text/html,text/plain"
+                req = Request(url, headers={"User-Agent": AGENT, "Accept": accept, "Cache-Control": "no-cache"})
                 with self.opener(req, timeout=25) as r:
                     if urlsplit(r.url).hostname != urlsplit(url).hostname:
                         raise ValueError("Cross-host redirect rejected")

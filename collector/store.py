@@ -62,7 +62,7 @@ def export(db, destination, generated):
     times = {m: [datetime.fromisoformat(s['observedAt'].replace('Z', '+00:00')).timestamp() for s in ss] for m, ss in indexed.items()}
     for q in all_quotes:
         p = products[q['product']]
-        ts = datetime.fromisoformat(q['observedAt'].replace('Z', '+00:00')).timestamp()
+        ts = datetime.fromisoformat(q.get('publishedAt',q['observedAt']).replace('Z', '+00:00')).timestamp()
         i = bisect_right(times.get(p['metal'], []), ts) - 1
         if i >= 0 and ts - times[p['metal']][i] <= 21600:
             s = indexed[p['metal']][i]
@@ -72,7 +72,7 @@ def export(db, destination, generated):
     latest, daily, recent = {}, {}, []
     for q in all_quotes:
         latest[(q["source"], q["product"])] = q
-        daily[(q["source"], q["product"], trading_day(q["observedAt"]))] = q
+        daily[(q["source"], q["product"], trading_day(q.get("publishedAt",q["observedAt"])))] = q
         if q["observedAt"] >= cutoff:
             recent.append(q)
     spot_latest, spot_daily = {}, {}
