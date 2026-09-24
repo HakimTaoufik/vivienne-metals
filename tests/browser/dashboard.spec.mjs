@@ -52,3 +52,27 @@ test('backup export and import restore a validated transaction',async({page})=>{
   const download=page.waitForEvent('download');await page.getByRole('button',{name:'Exporter la sauvegarde'}).click();
   expect((await download).suggestedFilename()).toContain('vivienne-sauvegarde');
 });
+test('expanded coverage, geographic filter and quantity comparison',async({page})=>{
+  await page.goto('/');await expect(page.locator('.shop-card')).toHaveCount(12);
+  await expect(page.locator('#coverage-count')).toContainText('8 rue Vivienne');
+  await page.getByLabel('Produit suivi').selectOption('napoleon20');
+  await page.getByRole('button',{name:'Rue Vivienne',exact:true}).click();
+  await expect(page.locator('#dealer-table [data-dealer="ccopera"]')).toHaveCount(0);
+  await page.getByLabel('Boutique comparée').selectOption('godot');
+  await page.getByLabel('Quantité à comparer').fill('10');
+  await page.getByLabel('Quantité à comparer').press('Tab');
+  await expect(page.locator('#dealer-table tbody tr')).toHaveCount(1);
+  await expect(page.locator('#comparison-context')).toContainText('10 unité(s)');
+  await expect(page.locator('#freshness-note')).toContainText('ne lance pas une collecte');
+});
+test('offline replay displays captured unit price and changes Godot volume band',async({page})=>{
+  await page.goto('/demo.html');await expect(page.getByText('Démonstration locale · relevé réel',{exact:false})).toBeVisible();
+  await page.getByLabel('Produit suivi').selectOption('napoleon20');
+  await page.getByLabel('Boutique comparée').selectOption('godot');
+  const snapshot=await (await page.request.get('/data/market.json')).json();
+  const quote=snapshot.quotes.find(q=>q.source==='godot-napoleon');
+  const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n/100);
+  await expect(page.locator('#best-ask')).toHaveText(euro(quote.ask));
+  await page.getByLabel('Quantité à comparer').fill('10');await page.getByLabel('Quantité à comparer').press('Tab');
+  await expect(page.locator('#best-ask')).toHaveText(euro(quote.askTiers.find(t=>t.min===10).price));
+});
