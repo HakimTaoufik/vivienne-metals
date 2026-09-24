@@ -14,26 +14,26 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - name: Verify and import the tested release with its tags
+      - name: Verify and import the tested Paris expansion
         shell: bash
         run: |
           set -euo pipefail
-          echo 'e89cfa6b3a1fd671f50802c8da07fbc59a5aaebb03a17a2f5fc3c9500c043bae  vivienne-metals.bundle' | sha256sum -c -
-          git bundle verify vivienne-metals.bundle
-          git fetch ./vivienne-metals.bundle refs/heads/main:refs/remotes/archive/main 'refs/tags/*:refs/tags/*'
+          echo 'a135ea42533a532630ed99c3f3734e86b89de3b95d74b15ff03b6918a57fc4f0  vivienne-expansion-v0.7.bundle' | sha256sum -c -
+          git bundle verify vivienne-expansion-v0.7.bundle
+          git fetch ./vivienne-expansion-v0.7.bundle refs/heads/main:refs/remotes/archive/main 'refs/tags/*:refs/tags/*'
           archive=$(git rev-parse refs/remotes/archive/main)
-          test "$archive" = '987b582c68b4d593cfd03fcd78650bcd4298b308'
+          test "$archive" = '4d821a6e32f61e4a14c430a191855f49b75f13ea'
           if git merge-base --is-ancestor "$archive" HEAD; then
-            echo 'Original history is already imported.'
+            echo 'Expansion history is already imported.'
             git push origin --tags
             exit 0
           fi
           git archive "$archive" | tar -x
-          git restore --source=HEAD -- .github/workflows
+          git restore --source=HEAD -- .github/workflows/import-history.yml
           git add .
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           tree=$(git write-tree)
-          merged=$(git commit-tree "$tree" -p HEAD -p "$archive" -m 'chore: import tested release and original version history')
+          merged=$(git commit-tree "$tree" -p HEAD -p "$archive" -m 'chore: import tested Paris expansion and its small commits')
           git update-ref refs/heads/main "$merged" HEAD
           git push --atomic origin main --tags
