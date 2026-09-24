@@ -25,15 +25,14 @@ jobs:
           test "$archive" = '4d821a6e32f61e4a14c430a191855f49b75f13ea'
           if git merge-base --is-ancestor "$archive" HEAD; then
             echo 'Expansion history is already imported.'
-            git push origin --tags
             exit 0
           fi
           git archive "$archive" | tar -x
-          git restore --source=HEAD -- .github/workflows/import-history.yml
+          git restore --source=HEAD -- .github/workflows
           git add .
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           tree=$(git write-tree)
           merged=$(git commit-tree "$tree" -p HEAD -p "$archive" -m 'chore: import tested Paris expansion and its small commits')
           git update-ref refs/heads/main "$merged" HEAD
-          git push --atomic origin main --tags
+          git push origin main
