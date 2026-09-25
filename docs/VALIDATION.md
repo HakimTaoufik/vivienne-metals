@@ -4,9 +4,31 @@
 - Real collection on September 24: 32/32 sources, 418 quotes, 12 dealers, 62 products. Raw responses were retained locally for the audit; sanitized regression fixtures are versioned with SHA-256 provenance.
 - Production on September 25: 28/32 sources collect successfully across 11 dealers. Comptoir Change Opéra returns HTTP 403 from the GitHub runner. Its last audited observations are merged into the existing archive with their original timestamps, without replacing current failure status. Those old/error quotes remain excluded from recommendations. The directory keeps all 12 configured shops visible even when a first fetch fails. Three new regression checks cover these recovery cases.
 - New regression cases cover every adapter, content negotiation, source timestamps, exact quantity boundaries, duplicate structured prices, promo prices, unavailable inventory, stale feeds, and no fabricated training days.
-- Browser suite expanded from 10 to 14 desktop/mobile scenarios. CI result and final live review are recorded after deployment.
+- Release pipeline [36161821185](https://github.com/HakimTaoufik/vivienne-metals/actions/runs/36161821185) passed all 136 checks (122 core/DOM + 14 desktop/mobile) on source commit `5118872` and deployed GitHub Pages successfully. The production snapshot at 2026-09-25 16:37 UTC retained 418 current/archived quotes and 28/32 healthy sources.
 - The standalone demo bundles the same app and actual snapshot, with an explicitly frozen clock. Its DOM execution is tested. The cloud browser blocks file URLs and local listeners; visual verification therefore uses the supported HTTPS deployment.
 - Email remains disabled without SMTP secrets and recipient configuration. Transport/TLS, cooldown, deduplication, durable intent, failure recovery and notification gating are tested with a fake transport; no real email was sent.
+
+## September 25 browser verification
+
+The deployed dashboard shows 12 shops (8 rue Vivienne), 62 product identities,
+real history from September 21–25, and separate capture/publication times.
+Opéra's archived Napoléon ask remains EUR 724.00 from September 24 at 10:52 Paris,
+marked old/error and excluded from comparable prices. Argentor remains marked
+confirmation required.
+
+Official dealer pages were checked against the 18:37 Paris snapshot:
+
+| Product / dealer | Stored price | Browser check |
+| --- | ---: | --- |
+| Coq 20 F / Merson | Ask EUR 717.39 | Same price on the official investment-gold catalog |
+| Napoléon 20 F / Godot | Ask EUR 729.50 (1–9), EUR 728.50 (10–49); bid EUR 684.00 | All matched the official product page; hosted replay changed unit price correctly at quantity 10 |
+| Coq 20 F / Change Vivienne | Ask EUR 730.50; bid EUR 689.65 | Ask matched; later product page showed bid EUR 688.60, demonstrating an intraday change after capture |
+
+The dashboard reports timestamped observations, not tick-by-tick prices. A reload
+reads the published file; it does not collect dealer pages. GitHub schedules may
+be delayed. The EUR 1.05 bid movement above must not be concealed or replaced by
+an invented matching observation. Best prices are qualified at the stored
+snapshot time; confirm the executable price with the dealer.
 
 ## Previous release evidence
 
