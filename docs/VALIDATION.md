@@ -1,7 +1,8 @@
-# v0.7.0 validation (2026-09-24)
+# v0.7.0 validation (2026-09-25)
 
-- Local gate: 55 Node model/portfolio/DOM checks and 64 Python collector/storage/mail checks (119 total), passing.
-- Real collection: 32/32 sources, 418 quotes, 12 dealers, 62 products. Raw responses retained locally for the audit; sanitized regression fixtures are versioned with SHA-256 provenance.
+- Local gate: 56 Node model/portfolio/DOM checks and 66 Python collector/storage/mail checks (122 total), passing.
+- Real collection on September 24: 32/32 sources, 418 quotes, 12 dealers, 62 products. Raw responses were retained locally for the audit; sanitized regression fixtures are versioned with SHA-256 provenance.
+- Production on September 25: 28/32 sources collect successfully across 11 dealers. Comptoir Change Opéra returns HTTP 403 from the GitHub runner. Its last audited observations are merged into the existing archive with their original timestamps, without replacing current failure status. Those old/error quotes remain excluded from recommendations. The directory keeps all 12 configured shops visible even when a first fetch fails. Three new regression checks cover these recovery cases.
 - New regression cases cover every adapter, content negotiation, source timestamps, exact quantity boundaries, duplicate structured prices, promo prices, unavailable inventory, stale feeds, and no fabricated training days.
 - Browser suite expanded from 10 to 14 desktop/mobile scenarios. CI result and final live review are recorded after deployment.
 - The standalone demo bundles the same app and actual snapshot, with an explicitly frozen clock. Its DOM execution is tested. The cloud browser blocks file URLs and local listeners; visual verification therefore uses the supported HTTPS deployment.
