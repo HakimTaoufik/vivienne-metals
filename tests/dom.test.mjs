@@ -7,14 +7,14 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const html=await readFile('web/index.html','utf8');
 let sequence=0;
-async function app(raw=null){
+async function app(raw=null,marketOverride=null){
   const dom=new JSDOM(html,{url:'https://example.github.io/vivienne-metals/',pretendToBeVisual:true});
   const w=dom.window;
   w.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};
   w.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');};
   Object.assign(globalThis,{window:w,document:w.document,localStorage:w.localStorage,FormData:w.FormData,confirm:()=>true});
   if(raw!==null)w.localStorage.setItem('vivienne.portfolio.v1',raw);
-  globalThis.fetch=async path=>{try{return {ok:true,json:async()=>JSON.parse(await readFile(resolve('dist',path),'utf8'))};}catch{return {ok:false,status:404}}};
+  globalThis.fetch=async path=>{try{return {ok:true,json:async()=>path==='./data/market.json'&&marketOverride?marketOverride:JSON.parse(await readFile(resolve('dist',path),'utf8'))};}catch{return {ok:false,status:404}}};
   await import(pathToFileURL(resolve('dist/app.mjs')).href+'?case='+sequence++);
   for(let i=0;i<100&&!w.document.querySelector('#dealer-table table');i++)await new Promise(r=>setTimeout(r,5));
   return {w,dom,$:id=>w.document.getElementById(id)};
@@ -28,3 +28,5 @@ test('DOM: backtest shows cold start rather than a fabricated return',async()=>{
 test('DOM: expanded shop directory and geography filter reflect stored coverage',async()=>{const {w,dom,$}=await app();assert.equal($('shop-directory').querySelectorAll('.shop-card').length,12);assert.match($('coverage-count').textContent,/8 rue Vivienne/);$('product-select').value='napoleon20';$('product-select').dispatchEvent(new w.Event('change'));w.document.querySelector('[data-area="vivienne"]').click();assert.ok([...$('dealer-select').options].every(o=>!['abacor','ccopera','goldunion','arcades'].includes(o.value)));assert.equal($('dealer-table').querySelector('[data-dealer="ccopera"]'),null);dom.window.close();});
 test('DOM: quantity control persists and dealer filter narrows the actual table',async()=>{const {w,dom,$}=await app();$('compare-quantity').value='10';$('compare-quantity').dispatchEvent(new w.Event('change'));assert.equal(JSON.parse(w.localStorage.getItem('vivienne.settings.v1')).tradeQuantity,10);$('product-select').value='napoleon20';$('product-select').dispatchEvent(new w.Event('change'));$('dealer-select').value='godot';$('dealer-select').dispatchEvent(new w.Event('change'));assert.equal($('dealer-table').querySelectorAll('tbody tr').length,1);assert.match($('dealer-table').textContent,/Godot/);dom.window.close();});
 test('offline demo executes the bundled real app and exposes its fixed timestamp',async()=>{const code=await readFile('dist/demo.html','utf8');const dom=new JSDOM(code,{url:'https://offline-demo.invalid/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.structuredClone=structuredClone;}});for(let i=0;i<100&&!dom.window.document.querySelector('#dealer-table table');i++)await new Promise(r=>setTimeout(r,5));const d=dom.window.document;assert.equal(d.querySelector('#global-error').hidden,true);assert.match(d.body.textContent,/Démonstration locale · relevé réel/);assert.equal(d.querySelectorAll('.shop-card').length,12);assert.ok(d.querySelector('#best-ask').textContent.includes('€'));dom.window.close();});
+
+test('DOM: a dealer with no successful first fetch stays visible as unavailable',async()=>{const snapshot=JSON.parse(await readFile('dist/data/market.json','utf8'));snapshot.quotes=snapshot.quotes.filter(q=>q.dealer!=='ccopera');const {dom,$}=await app(null,snapshot);assert.equal($('shop-directory').querySelectorAll('.shop-card').length,12);const card=[...$('shop-directory').querySelectorAll('.shop-card')].find(c=>c.textContent.includes('Comptoir Change Opéra'));assert.match(card.textContent,/collecte indisponible/);assert.equal($('dealer-table').querySelector('[data-dealer="ccopera"]'),null);dom.window.close();});

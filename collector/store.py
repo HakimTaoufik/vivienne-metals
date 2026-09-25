@@ -34,6 +34,21 @@ def save(db, quotes, spots, health):
         db.execute("INSERT OR REPLACE INTO health VALUES(?,?)", (health["id"], json.dumps(health)))
 
 
+def merge_snapshot(db, snapshot):
+    """Import audited observations without refreshing their time or source health.
+
+    Also runs on existing databases: a newly added dealer may be temporarily
+    inaccessible from the scheduled runner. INSERT OR IGNORE makes replays safe.
+    """
+    quotes = snapshot.get("history", []) + snapshot.get("quotes", [])
+    spots = snapshot.get("spotHistory", []) + snapshot.get("spots", [])
+    for health in snapshot.get("health", []):
+        current = db.execute("SELECT payload FROM health WHERE source=?", (health["id"],)).fetchone()
+        save(db, [q for q in quotes if q["source"] == health["id"]],
+             [s for s in spots if s["source"] == health["id"]],
+             json.loads(current[0]) if current else health)
+
+
 def atomic_json(path, value):
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
