@@ -44,7 +44,7 @@ the real stored snapshot. Its calculation time is explicitly frozen, and its dem
 ledger is isolated from the live portfolio. Open it locally, or use
 [the hosted replay](https://hakimtaoufik.github.io/vivienne-metals/demo.html).
 
-The release gate contains 119 core/DOM checks plus 14 desktop/mobile browser
+The release gate contains 122 core/DOM checks plus 14 desktop/mobile browser
 scenarios. See the [build status](https://github.com/HakimTaoufik/vivienne-metals/actions/workflows/market.yml).
 
 Email is disabled until you configure SMTP secrets, choose your recipient and

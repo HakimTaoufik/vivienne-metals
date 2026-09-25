@@ -123,7 +123,7 @@ npm run test:browser              # desktop and mobile Chromium flows
 ```
 
 The browser suite runs on code pushes, pull requests and version tags; it avoids
-reinstalling a browser on every hourly data run. Runtime schedules still run fast
+reinstalling a browser on every scheduled data run (15-minute cadence). Runtime schedules still run fast
 regression tests. Browser tests require a working browser runtime.
 
 The v0.6.1 release passed 86 core/DOM tests and all ten real browser scenarios in
