@@ -1,5 +1,16 @@
 # Version history
 
+## v0.7.0 — 2026-09-25
+
+* Expand to 12 Paris dealers, including 8 on rue Vivienne, 62 precise product identities and 32 price endpoints.
+* Preserve dealer publication timestamps, price sides, stock conditions, minimum quantities and verified volume discounts.
+* Add shop/geography filters, quantity comparisons, source health and a self-contained replay of real captured prices.
+* Schedule collection every 15 minutes, subject to GitHub delays, with stale or uncertain prices excluded from recommendations.
+* Keep unavailable shops visible and recover their audited history without changing its dates or masking current errors.
+* Extend release checks to 122 core/DOM cases and 14 desktop/mobile browser scenarios.
+* Opéra currently returns HTTP 403 from GitHub; its dated archive remains visible but cannot drive recommendations. Argentor quotes still require dealer confirmation.
+* Email remains disabled until SMTP and recipient configuration; the model waits for enough real daily history.
+
 ## v0.6.1 — 2026-09-23
 
 * Give the purchase/sale selector an explicit accessible name.
